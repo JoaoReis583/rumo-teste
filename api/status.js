@@ -19,11 +19,13 @@ module.exports = handler('GET', async () => {
   const sk = process.env.STRIPE_SECRET_KEY || '';
   const pk = process.env.STRIPE_PUBLISHABLE_KEY || '';
   const ak = process.env.ANTHROPIC_API_KEY || '';
+  const gk = process.env.GEMINI_API_KEY || '';
   return {
     firebase_service_account: fb,
     stripe_secret_key: { definida: !!sk, comeco: sk.slice(0, 8) },
     stripe_publishable_key: { definida: !!pk, comeco: pk.slice(0, 8) },
     anthropic_api_key: { definida: !!ak, comeco: ak.slice(0, 7) },
+    gemini_api_key: { definida: !!gk, comeco: gk.slice(0, 4) },
     plano: { valor: process.env.PLAN_VALUE || '(padrão 5.9)', teste_dias: process.env.TRIAL_DAYS ?? '(padrão 7)' },
   };
 });

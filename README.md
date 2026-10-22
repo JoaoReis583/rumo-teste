@@ -73,17 +73,19 @@ Crie uma conta no site e clique em "Começar teste grátis". Use o cartão de te
 
 ## Assistente de IA
 
-Botão "Assistente" no canto do painel (só aparece para quem tem acesso ativo). O assistente usa o Claude (Anthropic) e recebe, a cada pergunta, um resumo dos dados do mês da própria pessoa (renda, planejado x gasto por categoria, contas fixas, metas e últimos lançamentos). A conversa não é guardada. A rota é `api/assistente.js`.
+Botão "Assistente" no canto do painel (só aparece para quem tem acesso ativo). O assistente recebe, a cada pergunta, um resumo dos dados do mês da própria pessoa (renda, planejado x gasto por categoria, contas fixas, metas e últimos lançamentos). A conversa não é guardada. A rota é `api/assistente.js`, que funciona com **Gemini (Google)** ou **Claude (Anthropic)**.
 
 O que ele faz: avalia a divisão da renda, analisa onde o dinheiro está indo, acompanha contas fixas e metas, ajuda a montar a reserva e organizar dívidas, explica termos financeiros e ensina a usar o site. Ele não indica investimentos específicos nem substitui um profissional.
 
 | Variável | Tipo | O que é |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Secret | Chave da API (console.anthropic.com > API Keys). Cada pergunta é cobrada na sua conta Anthropic: adicione crédito e **defina um limite de gasto** lá. |
-| `ASSISTANT_MODEL` | Config | Opcional. Padrão `claude-haiku-5-5` (mais barato). Para respostas mais fortes use `claude-sonnet-5-5`. |
+| `GEMINI_API_KEY` | Secret | Chave do Google AI Studio (aistudio.google.com > Get API key). Se existir, o Gemini é usado. |
+| `ANTHROPIC_API_KEY` | Secret | Alternativa: chave da Anthropic (console.anthropic.com). Usada se não houver `GEMINI_API_KEY`. |
+| `ASSISTANT_PROVIDER` | Config | Opcional. `gemini` ou `claude`, para forçar um dos dois. |
+| `ASSISTANT_MODEL` | Config | Opcional. Padrão `gemini-2.5-flash` (Gemini) ou `claude-haiku-5-5` (Claude). |
 | `ASSISTANT_DAILY_LIMIT` | Config | Opcional. Perguntas por pessoa por dia (padrão 30). |
 
-Os dados enviados à IA devem constar na Política de Privacidade do site.
+Atenção: no plano gratuito da API do Gemini, o Google pode usar o conteúdo enviado para melhorar seus produtos. Como o assistente envia dados financeiros dos usuários, ative o faturamento (plano pago) no Google AI Studio e confira os termos de uso de dados antes de abrir ao público. Os dados enviados à IA devem constar na Política de Privacidade do site.
 
 ## Dados
 
