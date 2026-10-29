@@ -107,7 +107,40 @@ async function syncSubscription(subId, uidHint) {
     updated_at: ts(new Date()),
   };
   await ref.set(data, { merge: true });
-  return { ...data, access_until: until };
+  // paid: já houve cobrança real (assinatura 'active'; o período de teste não conta)
+  return { ...data, uid, access_until: until, paid: sub.status === 'active' };
+}
+
+// ---- Indicação por link: 5 amigos pagantes = 30 dias grátis (acumula a cada bloco de 5) ----
+const PREMIO_DIAS = 30;
+const BLOCO = 5;
+const TRAVA_DIAS = 37; // 7 dias de teste + 30 do primeiro período
+// Conta a indicação quando o amigo paga de verdade. Transacional e idempotente (só conta uma vez por amigo).
+async function premiarIndicacao(uid) {
+  if (!uid) return { ok: false };
+  const usageRef = db().collection('referral_uses').doc(uid);
+  return db().runTransaction(async (t) => {
+    const usage = await t.get(usageRef);
+    if (!usage.exists || usage.data().pago) return { ok: false };
+    const ownerUid = usage.data().indicado_por;
+    const ownerRef = db().collection('referrals').doc(ownerUid);
+    const subRef = db().collection('subscriptions').doc(ownerUid);
+    const [owner, subSnap] = await Promise.all([t.get(ownerRef), t.get(subRef)]);
+    t.update(usageRef, { pago: true, pago_em: ts(new Date()) });
+    if (!owner.exists) return { ok: false };
+    const total = (owner.data().total || 0) + 1;
+    const ganhou = Math.floor(total / BLOCO) > Math.floor((total - 1) / BLOCO);
+    const upd = { total };
+    if (ganhou) {
+      upd.premiados = (owner.data().premiados || 0) + 1;
+      const sub = subSnap.data() || {};
+      const base = sub.access_until ? sub.access_until.toDate() : new Date();
+      const nova = new Date(Math.max(base.getTime(), Date.now()) + PREMIO_DIAS * 86400000);
+      t.set(subRef, { access_until: ts(nova), updated_at: ts(new Date()) }, { merge: true });
+    }
+    t.update(ownerRef, upd);
+    return { ok: true, premio: ganhou, total };
+  });
 }
 
 async function requireUser(req) {
@@ -163,4 +196,4 @@ function handler(method, fn) {
   };
 }
 
-module.exports = { HttpError, admin, db, ts, CFG, stripe, verifyStripeSignature, syncSubscription, requireUser, bodyOf, originOf, rateLimit, handler };
+module.exports = { HttpError, admin, db, ts, CFG, stripe, verifyStripeSignature, syncSubscription, premiarIndicacao, PREMIO_DIAS, BLOCO, TRAVA_DIAS, requireUser, bodyOf, originOf, rateLimit, handler };
