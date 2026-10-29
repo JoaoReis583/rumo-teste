@@ -3777,7 +3777,7 @@
         $('#referralProgress').textContent = `${r.no_bloco} de ${r.bloco} amigos neste bloco · faltam ${r.faltam} para ganhar ${r.premio_dias} dias grátis` + (r.premios ? ` · você já ganhou ${r.premios} ${r.premios > 1 ? 'prêmios' : 'prêmio'}` : '');
         $('#shareLinkBtn').classList.toggle('hide', !navigator.share)
       }
-      catch (e) { $('#referralLink').textContent = 'Indisponível no momento' }
+      catch (e) { console.error('indicar:', e); $('#referralLink').textContent = 'Indisponível no momento' + (e && e.message ? ' [' + e.message + ']' : '') }
     }
     $('#copyLinkBtn').onclick = () => {
       if (!INVITE_LINK) return;
