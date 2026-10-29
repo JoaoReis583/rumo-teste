@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convite — Rumo</title>
+<meta name="robots" content="noindex">
+<link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font:16px system-ui,sans-serif;color:#17382c;background:#f4faf6}</style>
+</head>
+<body>
+<p>Abrindo seu convite&hellip; <a href="/registro" style="color:#1f9d63">Continuar</a></p>
+<script>
+  // /i/TOKEN: guarda o token (que é o código do convite) e leva para a criação de conta.
+  var m = /^\/i\/([A-Za-z0-9]{4,16})\/?$/.exec(location.pathname);
+  if (m) { try { localStorage.setItem('rumo_ref', m[1].toUpperCase()) } catch (e) {} }
+  location.replace('/registro');
+</script>
+</body>
+</html>

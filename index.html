@@ -617,8 +617,16 @@
     }
 
     .perks span::before {
-      content: "✓ ";
-      color: var(--leaf);
+      content: "";
+      display: inline-block;
+      width: .5em;
+      height: .26em;
+      border-left: 2px solid var(--leaf);
+      border-bottom: 2px solid var(--leaf);
+      transform: rotate(-45deg);
+      margin-right: .55em;
+      position: relative;
+      top: -.12em;
       font-weight: 700
     }
 
@@ -869,8 +877,16 @@
     }
 
     .pcard li::before {
-      content: "✓ ";
-      color: var(--leaf);
+      content: "";
+      display: inline-block;
+      width: .5em;
+      height: .26em;
+      border-left: 2px solid var(--leaf);
+      border-bottom: 2px solid var(--leaf);
+      transform: rotate(-45deg);
+      margin-right: .55em;
+      position: relative;
+      top: -.12em;
       font-weight: 700
     }
 
@@ -1805,9 +1821,18 @@
       margin-bottom: 1rem
     }
 
+    .ref-actions {
+      display: flex;
+      gap: .5rem;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
     .referral-code {
-      font: 800 1.6rem 'Bricolage Grotesque';
-      letter-spacing: .15em;
+      font: 700 1rem 'Instrument Sans', system-ui, sans-serif;
+      letter-spacing: 0;
+      word-break: break-all;
+      max-width: 100%;
       background: rgba(255, 255, 255, .15);
       border-radius: 12px;
       padding: .5rem 1.5rem;
@@ -1850,6 +1875,111 @@
     }
 
     /* Voz / foto */
+    .ico {
+      width: 1.05em;
+      height: 1.05em;
+      vertical-align: -.17em;
+      flex-shrink: 0
+    }
+
+    /* ---- Tela de voz ---- */
+    .voice-ov {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at 50% 40%, #14583f 0%, #0a2a1f 70%);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 1.5rem
+    }
+
+    .voice-ov[hidden] {
+      display: none
+    }
+
+    body.voice-open {
+      overflow: hidden
+    }
+
+    .voice-stage {
+      position: relative;
+      width: min(52vw, 230px);
+      aspect-ratio: 1;
+      margin-bottom: 1.5rem
+    }
+
+    .voice-ball,
+    .voice-halo {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      will-change: transform
+    }
+
+    .voice-ball {
+      background: radial-gradient(circle at 35% 30%, #b9f3d2, #3fcf8e 55%, #1f9d63);
+      box-shadow: 0 0 60px rgba(92, 196, 140, .55)
+    }
+
+    .voice-halo {
+      background: rgba(92, 196, 140, .35);
+      filter: blur(14px);
+      opacity: .3
+    }
+
+    .voice-status {
+      font: 700 1.3rem 'Bricolage Grotesque', system-ui, sans-serif;
+      letter-spacing: -.01em
+    }
+
+    .voice-text {
+      max-width: 34rem;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      min-height: 4.5em;
+      max-height: 30vh;
+      overflow: auto;
+      color: #fff
+    }
+
+    .voice-text.empty {
+      color: #9bddb7
+    }
+
+    .voice-actions {
+      display: flex;
+      gap: .7rem
+    }
+
+    .voice-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: .8rem 1.8rem;
+      font: 600 1rem 'Instrument Sans', system-ui, sans-serif;
+      background: #fff;
+      color: var(--forest);
+      cursor: pointer
+    }
+
+    .voice-btn.ghost {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255, 255, 255, .45)
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .voice-ball,
+      .voice-halo {
+        transition: none
+      }
+    }
+
     .capture-btn {
       display: flex;
       align-items: center;
@@ -2330,7 +2460,7 @@
       <section class="sec aiSec" id="ia">
         <div class="wrap">
           <div class="badge" style="background:rgba(255,255,255,.1);color:#d7efe2;border-color:rgba(255,255,255,.2)">
-            &#10022; Assistente com IA</div>
+            Assistente com IA</div>
           <h2>Uma IA que não só responde. Ela faz por você.</h2>
           <p class="sub">Esqueça formulários e abas. Diga o que você precisa em português e o assistente do Rumo mexe
             nos seus dados: lançamentos, contas fixas, metas, renda e a divisão do salário. Ele também analisa o seu mês
@@ -2432,21 +2562,21 @@
             <h2 style="font-size:clamp(1.8rem,4vw,2.6rem)">O que dizem quem usa o Rumo</h2>
             <div class="testimonials">
               <div class="tcard">
-                <div class="stars">★★★★★</div>
+                <div class="stars" aria-label="5 estrelas"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg></div>
                 <p>"Finalmente entendi para onde ia meu salário. Em dois meses cortei R$ 400 de gastos que nem
                   percebia."</p>
                 <div class="author">Mariana S.</div>
                 <div class="role">Designer, São Paulo</div>
               </div>
               <div class="tcard">
-                <div class="stars">★★★★★</div>
+                <div class="stars" aria-label="5 estrelas"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg></div>
                 <p>"A IA é surpreendente. Pedi 'adicione R$ 120 de mercado' e ela fez na hora. Não precisei abrir
                   nenhuma aba."</p>
                 <div class="author">Rafael T.</div>
                 <div class="role">Engenheiro, Belo Horizonte</div>
               </div>
               <div class="tcard">
-                <div class="stars">★★★★★</div>
+                <div class="stars" aria-label="5 estrelas"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg></div>
                 <p>"Usei planilha por anos. O Rumo faz tudo que eu fazia em 30 minutos, em 2 minutos. Vale muito."</p>
                 <div class="author">Camila F.</div>
                 <div class="role">Professora, Porto Alegre</div>
@@ -2563,7 +2693,7 @@
             id="mLabel" aria-live="polite"></b><button id="mNext" aria-label="Próximo mês">›</button></div>
       </div>
       <div class="banner hide" id="setupBanner">O banco ainda não está liberado para este app. No Firebase, abra
-        <b>Firestore Database → Regras</b>, cole o conteúdo de <b>firestore.rules</b>, clique em <b>Publicar</b> e
+        <b>Firestore Database &gt; Regras</b>, cole o conteúdo de <b>firestore.rules</b>, clique em <b>Publicar</b> e
         recarregue a página.</div>
       <div class="banner hide" id="subBar" role="status"></div>
       <div class="banner hide" id="verifyBanner">Confirme seu e-mail: enviamos um link para <b id="vMail"></b>. Não
@@ -2616,10 +2746,8 @@
           <h3>Novo lançamento</h3>
           <!-- Captura por voz/foto -->
           <div style="display:flex;gap:.5rem;margin-bottom:.8rem;flex-wrap:wrap">
-            <button class="capture-btn" id="voiceBtn" type="button" aria-label="Lançar por voz">🎤 Lançar por
-              voz</button>
-            <button class="capture-btn" id="photoBtn" type="button" aria-label="Lançar por foto">📷 Foto de
-              nota</button>
+            <button class="capture-btn" id="voiceBtn" type="button" aria-label="Lançar por voz"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg> Lançar por voz</button>
+            <button class="capture-btn" id="photoBtn" type="button" aria-label="Lançar por foto"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg> Foto de nota</button>
             <input type="file" id="photoInput" accept="image/*" capture="environment" class="sr-only"
               aria-hidden="true">
           </div>
@@ -2652,11 +2780,10 @@
           </form>
           <!-- Importar CSV -->
           <details style="margin-top:1rem">
-            <summary style="cursor:pointer;color:var(--mute);font-size:.9rem;font-weight:600;padding:.4rem 0">📂
-              Importar extrato CSV</summary>
+            <summary style="cursor:pointer;color:var(--mute);font-size:.9rem;font-weight:600;padding:.4rem 0">Importar extrato CSV</summary>
             <div style="margin-top:.8rem">
               <div class="drop-zone" id="csvDropZone" tabindex="0" role="button" aria-label="Soltar arquivo CSV aqui">
-                <div class="drop-icon">📊</div>
+                <div class="drop-icon"><svg class="ico" style="width:34px;height:34px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
                 <p>Arraste um arquivo CSV ou clique para selecionar</p>
                 <p style="font-size:.8rem;margin-top:.3rem">Formato: Data;Descrição;Valor (exportado pelo seu banco)</p>
               </div>
@@ -2759,7 +2886,7 @@
               </div>
               <div style="display:flex;gap:.5rem;flex-wrap:wrap">
                 <button class="btn ghost" id="reset">Voltar à divisão sugerida</button>
-                <button class="btn" id="aiPlan" type="button">&#10022; Ajustar com a IA</button>
+                <button class="btn" id="aiPlan" type="button">Ajustar com a IA</button>
               </div>
               <span id="saved" class="pill" role="status"></span>
             </div>
@@ -2791,33 +2918,24 @@
       <section class="panel hide" id="p_config">
         <div class="two">
           <div>
-            <div class="card">
-              <h3>Indicar amigos</h3>
+            <div class="card" id="inviteCard">
+              <h3>Convidar amigos</h3>
               <div class="referral-box" id="referralBox">
-                <h3>Seu código de indicação</h3>
-                <p>Compartilhe com amigos. A cada 3 que assinarem, você ganha 30 dias grátis.</p>
-                <div class="referral-code" id="referralCode">...</div>
-                <div>
-                  <button class="btn ghost sm" id="copyCodeBtn"
+                <h3>Seu link de convite</h3>
+                <p>Compartilhe o link. A cada 5 amigos que assinarem pelo seu convite, você ganha 30 dias grátis.</p>
+                <div class="referral-code" id="referralLink">Carregando...</div>
+                <div class="ref-actions">
+                  <button class="btn ghost sm" id="copyLinkBtn" type="button"
                     style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35);color:#fff">Copiar
-                    código</button>
+                    link</button>
+                  <button class="btn ghost sm hide" id="shareLinkBtn" type="button"
+                    style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35);color:#fff">Compartilhar</button>
                 </div>
                 <div style="margin-top:1rem">
                   <small style="color:#9bddb7" id="referralProgress">Carregando...</small>
                   <div class="referral-progress"><i id="referralBar" style="width:0%"></i></div>
                 </div>
               </div>
-            </div>
-            <div class="card">
-              <h3>Usar código de indicação</h3>
-              <p style="color:var(--mute);font-size:.9rem;margin-bottom:.8rem">Se um amigo indicou você, insira o código
-                dele para registrar a indicação.</p>
-              <div style="display:flex;gap:.5rem">
-                <input id="referralInput" maxlength="8" placeholder="Ex.: AB12CD34"
-                  style="flex:1;padding:.65rem .8rem;border:1.5px solid var(--line);border-radius:12px;font:inherit;text-transform:uppercase">
-                <button class="btn" id="referralApplyBtn">Aplicar</button>
-              </div>
-              <p id="referralMsg" style="margin-top:.5rem;font-size:.88rem"></p>
             </div>
           </div>
           <div>
@@ -2826,13 +2944,13 @@
               <div class="settings-section">
                 <h4>Exportar meus dados (LGPD)</h4>
                 <p>Baixe todos os seus dados em formato JSON: lançamentos, contas, metas e planejamento.</p>
-                <button class="btn ghost sm" id="exportDataBtn">⬇ Exportar tudo em JSON</button>
+                <button class="btn ghost sm" id="exportDataBtn">Exportar tudo em JSON</button>
               </div>
               <div class="settings-section">
                 <h4>Excluir minha conta</h4>
                 <p>Remove permanentemente sua conta e todos os dados associados. Esta ação <b>não pode ser desfeita</b>.
                 </p>
-                <button class="btn danger sm" id="deleteAccountBtn">🗑 Excluir minha conta</button>
+                <button class="btn danger sm" id="deleteAccountBtn">Excluir minha conta</button>
               </div>
             </div>
             <div class="card">
@@ -2877,10 +2995,6 @@
       <div id="mailBox"><label for="aMail">E-mail</label><input id="aMail" type="email" autocomplete="email"></div>
       <label for="aPass" id="aPassLbl">Senha (mínimo 8 caracteres)</label><input id="aPass" type="password"
         autocomplete="current-password">
-      <div id="referralRegBox" class="hide" style="margin-top:.9rem">
-        <label for="aReferral">Código de indicação (opcional)</label>
-        <input id="aReferral" maxlength="8" placeholder="Ex.: AB12CD34" style="text-transform:uppercase">
-      </div>
       <div class="err" id="aErr" role="alert"></div>
       <button class="btn" id="aGo">Entrar</button>
       <div style="text-align:center"><button type="button" class="link" id="aForgot">Esqueci minha senha</button></div>
@@ -2918,19 +3032,31 @@
   </dialog>
 
   <!-- IA FAB + PANEL -->
-  <button id="aiFab" class="hide" aria-label="Abrir o assistente">&#10022; Assistente</button>
+  <div id="voiceOv" class="voice-ov" hidden role="dialog" aria-modal="true" aria-label="Lançar por voz">
+    <div class="voice-stage">
+      <div class="voice-halo" id="voiceHalo"></div>
+      <div class="voice-ball" id="voiceBall"></div>
+    </div>
+    <div class="voice-status" id="voiceStatus" aria-live="polite">Ouvindo…</div>
+    <p class="voice-text empty" id="voiceText"></p>
+    <div class="voice-actions">
+      <button type="button" class="voice-btn ghost" id="voiceCancel">Cancelar</button>
+      <button type="button" class="voice-btn" id="voiceStop">Enviar</button>
+    </div>
+  </div>
+  <button id="aiFab" class="hide" aria-label="Abrir o assistente">Assistente</button>
   <section id="aiPanel" class="hide" role="dialog" aria-label="Assistente do Rumo" aria-modal="true">
     <header>
       <b>Assistente Rumo</b>
       <div class="ai-actions">
-        <button class="ai-hist-btn" id="aiClearBtn" title="Limpar conversa">🗑 Limpar</button>
+        <button class="ai-hist-btn" id="aiClearBtn" title="Limpar conversa">Limpar</button>
         <button id="aiClose" aria-label="Fechar o assistente">&times;</button>
       </div>
     </header>
     <div id="aiLog" aria-live="polite"></div>
     <div id="aiChips"></div>
     <div class="ai-capture-row">
-      <button class="capture-btn" id="aiVoiceBtn" type="button" aria-label="Enviar mensagem por voz">🎤 Voz</button>
+      <button class="capture-btn" id="aiVoiceBtn" type="button" aria-label="Enviar mensagem por voz"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg> Voz</button>
     </div>
     <form id="aiForm"><input id="aiIn" maxlength="600" placeholder="Pergunte ou peça uma mudança…"
         aria-label="Sua pergunta" autocomplete="off"><button class="btn" id="aiSend" type="submit">Enviar</button>
@@ -3076,10 +3202,10 @@
     }
     $('#demoIn').oninput = renderDemo; renderDemo();
     const CHAT_EX = [
-      { t: 'Trocar conta', u: 'Mude a conta de luz para internet', b: 'Troquei o nome da conta.', r: ['✓ Conta fixa: "Luz" agora é "Internet"'] },
-      { t: 'Lançar gasto', u: 'Adicione R$ 50 no mercado hoje', b: 'Lancei em Alimentação.', r: ['✓ Gasto: Mercado · R$ 50,00'] },
-      { t: 'Criar meta', u: 'Meta de viagem de R$ 3.000 para dezembro', b: 'Meta criada! Guardando R$ 750/mês você chega lá.', r: ['✓ Meta: Viagem · R$ 3.000,00'] },
-      { t: 'Desfazer ação', u: 'Desfaz o último lançamento que você fez', b: 'Desfeito. O lançamento foi removido.', r: ['✓ Lançamento excluído: Mercado'] }
+      { t: 'Trocar conta', u: 'Mude a conta de luz para internet', b: 'Troquei o nome da conta.', r: ['Feito: Conta fixa: "Luz" agora é "Internet"'] },
+      { t: 'Lançar gasto', u: 'Adicione R$ 50 no mercado hoje', b: 'Lancei em Alimentação.', r: ['Feito: Gasto: Mercado · R$ 50,00'] },
+      { t: 'Criar meta', u: 'Meta de viagem de R$ 3.000 para dezembro', b: 'Meta criada! Guardando R$ 750/mês você chega lá.', r: ['Feito: Meta: Viagem · R$ 3.000,00'] },
+      { t: 'Desfazer ação', u: 'Desfaz o último lançamento que você fez', b: 'Desfeito. O lançamento foi removido.', r: ['Feito: Lançamento excluído: Mercado'] }
     ];
     let chatI = 0, chatT = [];
     function playChat(i) {
@@ -3114,7 +3240,6 @@
       mode = m; const r = m === 'register';
       $('#tLogin').setAttribute('aria-selected', !r); $('#tReg').setAttribute('aria-selected', r);
       $('#nameBox').classList.toggle('hide', !r); $('#aForgot').classList.toggle('hide', r);
-      $('#referralRegBox').classList.toggle('hide', !r);
       $('#authTitle').textContent = r ? 'Criar sua conta' : 'Entrar no Rumo';
       $('#aGo').textContent = goLabel(); $('#aPass').autocomplete = r ? 'new-password' : 'current-password'; $('#aErr').textContent = ''; $('#aErr').style.color = ''
     }
@@ -3125,11 +3250,12 @@
     }, 500);
     document.querySelectorAll('[data-auth]').forEach(b => b.onclick = () => {
       planoSelecionado = b.dataset.plano || 'mensal';
-      setMode(b.dataset.auth); dlg.showModal()
+      try { sessionStorage.setItem('rumo_plano', planoSelecionado) } catch (e) { }
+      location.href = b.dataset.auth === 'register' ? '/registro' : '/login'
     });
     $('#tLogin').onclick = () => setMode('login'); $('#tReg').onclick = () => setMode('register'); $('#xAuth').onclick = () => dlg.close();
     $('#aGo').onclick = async () => {
-      if (busy) return; const mail = $('#aMail').value.trim().toLowerCase(), pw = $('#aPass').value, err = $('#aErr'), btn = $('#aGo'), nm = $('#aName').value.trim(), refCode = ($('#aReferral').value || '').toUpperCase().trim();
+      if (busy) return; const mail = $('#aMail').value.trim().toLowerCase(), pw = $('#aPass').value, err = $('#aErr'), btn = $('#aGo'), nm = $('#aName').value.trim();
       err.style.color = '';
       if (!auth) { err.textContent = 'Falta configurar o Firebase no início do script (FIREBASE_CONFIG).'; return }
       if (mode === 'register' && CD('signup') > 0) return;
@@ -3143,8 +3269,6 @@
           const cred = await createUserWithEmailAndPassword(auth, mail, pw);
           try { await updateProfile(cred.user, { displayName: nm }) } catch (e) { }
           try { await sendEmailVerification(cred.user) } catch (e) { }
-          // Registrar código de indicação
-          if (refCode) { try { await api('/api/indicar', { acao: 'registrar', codigo: refCode }) } catch (e) { } }
           // Métrica: conta criada
           trackMetrica('conta_criada', cred.user.uid);
         } else {
@@ -3219,6 +3343,7 @@
     function defaultDate() { return M === nowKey() ? ymd(new Date()) : M + '-01' }
 
     /* ===== ALERTAS PROATIVOS ===== */
+    const ALERT_ICON = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>';
     function renderAlertasProativos() {
       const el = $('#alertasProativos');
       if (!user || !$('#alertasToggle').checked) { el.innerHTML = ''; return }
@@ -3226,19 +3351,19 @@
       // Alerta: categoria acima de 80%
       CATS.forEach(c => {
         const plan = Math.round(s.inc * (D.pcts[c.id] || 0) / 100); if (plan <= 0) return; const pct = s.by[c.id] / plan * 100;
-        if (pct >= 80 && pct < 100) alerts.push({ icon: '⚠️', title: `${c.n}: ${Math.floor(pct)}% do orçamento usado`, body: `Você usou R$ ${BRLc(s.by[c.id])} de R$ ${BRLc(plan)} planejados. Faltam R$ ${BRLc(plan - s.by[c.id])}.` });
-        else if (pct >= 100) alerts.push({ icon: '🔴', title: `${c.n}: orçamento estourado!`, body: `Você gastou R$ ${BRLc(s.by[c.id])} e tinha planejado R$ ${BRLc(plan)}. Passando R$ ${BRLc(s.by[c.id] - plan)}.` })
+        if (pct >= 80 && pct < 100) alerts.push({ icon: ALERT_ICON, title: `${c.n}: ${Math.floor(pct)}% do orçamento usado`, body: `Você usou R$ ${BRLc(s.by[c.id])} de R$ ${BRLc(plan)} planejados. Faltam R$ ${BRLc(plan - s.by[c.id])}.` });
+        else if (pct >= 100) alerts.push({ icon: ALERT_ICON, title: `${c.n}: orçamento estourado!`, body: `Você gastou R$ ${BRLc(s.by[c.id])} e tinha planejado R$ ${BRLc(plan)}. Passando R$ ${BRLc(s.by[c.id] - plan)}.` })
       });
       // Alerta: meta atrasada
       const now = new Date();
       GOALS.forEach(g => {
         if (!g.deadline || g.saved_cents >= g.target_cents) return;
         const [y, m, d] = g.deadline.split('-').map(Number), dl = new Date(y, m - 1, d);
-        if (dl < now) alerts.push({ icon: '📅', title: `Meta "${g.name}" com prazo vencido`, body: `O prazo era ${brd(g.deadline)}. Você guardou R$ ${BRLc(g.saved_cents)} de R$ ${BRLc(g.target_cents)}.` })
+        if (dl < now) alerts.push({ icon: ALERT_ICON, title: `Meta "${g.name}" com prazo vencido`, body: `O prazo era ${brd(g.deadline)}. Você guardou R$ ${BRLc(g.saved_cents)} de R$ ${BRLc(g.target_cents)}.` })
       });
       // Alerta: saldo negativo
       const bal = s.inc - s.out;
-      if (bal < 0 && s.out > 0) alerts.push({ icon: '💸', title: 'Gastos acima da renda este mês', body: `Você gastou R$ ${BRLc(s.out)} e entrou R$ ${BRLc(s.inc)}. Saldo negativo de R$ ${BRLc(Math.abs(bal))}.` });
+      if (bal < 0 && s.out > 0) alerts.push({ icon: ALERT_ICON, title: 'Gastos acima da renda este mês', body: `Você gastou R$ ${BRLc(s.out)} e entrou R$ ${BRLc(s.inc)}. Saldo negativo de R$ ${BRLc(Math.abs(bal))}.` });
       // Mostra no máximo 3 alertas
       el.innerHTML = alerts.slice(0, 3).map(a => `<div class="alert-proativo"><div class="alert-icon">${a.icon}</div><div class="alert-body"><h4>${esc(a.title)}</h4><p>${esc(a.body)}</p></div></div>`).join('')
     }
@@ -3254,7 +3379,7 @@
             ? { pcts: D.pcts, income_cents: Math.round(Math.min(D.income, 1e9) * 100), updated_at: new Date().toISOString() }
             : { income_cents: Math.round(Math.min(D.income, 1e9) * 100), pcts: D.pcts, updated_at: new Date().toISOString() };
           await setDoc(docRef, payload, { merge: true });
-          e.className = 'pill'; e.textContent = 'Salvo na sua conta ✓'; clearTimeout(hd); hd = setTimeout(() => e.textContent = '', 2500)
+          e.className = 'pill'; e.textContent = 'Salvo na sua conta'; clearTimeout(hd); hd = setTimeout(() => e.textContent = '', 2500)
         }
         catch (err) { if (err && err.code === 'unauthenticated') { await route(); return } e.className = 'pill bad'; e.textContent = 'Não foi possível salvar. Verifique sua conexão.' }
       }, 500)
@@ -3330,7 +3455,7 @@
       $('#txList').innerHTML = list.length ? list.map(t => {
         const c = CAT[t.cat], inc = t.kind === 'income';
         const parcelaBadge = t.parcela_total > 1 ? `<span class="parcelas-badge">${t.parcela_atual}/${t.parcela_total}</span>` : '';
-        return `<div class="li"><span class="dot" style="background:${inc ? '#1f9d63' : c ? c.c : '#ccc'}"></span><div class="m"><b>${esc(t.description)}${parcelaBadge}</b><small>${t.tx_date.slice(8)}/${t.tx_date.slice(5, 7)} · ${inc ? 'Renda extra' : c ? c.n : ''}${t.bill_id ? ' · conta fixa' : ''}</small></div><span class="amt ${inc ? 'in' : ''}">${inc ? '+' : '−'} ${BRLc(t.amount_cents)}</span><div class="actions"><button class="ic edit" data-act="editTx" data-id="${esc(t.id)}" aria-label="Editar lançamento" title="Editar">✎</button><button class="ic" data-act="delTx" data-id="${esc(t.id)}" aria-label="Excluir lançamento" title="Excluir">✕</button></div></div>`
+        return `<div class="li"><span class="dot" style="background:${inc ? '#1f9d63' : c ? c.c : '#ccc'}"></span><div class="m"><b>${esc(t.description)}${parcelaBadge}</b><small>${t.tx_date.slice(8)}/${t.tx_date.slice(5, 7)} · ${inc ? 'Renda extra' : c ? c.n : ''}${t.bill_id ? ' · conta fixa' : ''}</small></div><span class="amt ${inc ? 'in' : ''}">${inc ? '+' : '−'} ${BRLc(t.amount_cents)}</span><div class="actions"><button class="ic edit" data-act="editTx" data-id="${esc(t.id)}" aria-label="Editar lançamento" title="Editar"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button><button class="ic" data-act="delTx" data-id="${esc(t.id)}" aria-label="Excluir lançamento" title="Excluir">&times;</button></div></div>`
       }).join('') : '<p class="empty">Nada por aqui neste mês. Adicione seu primeiro lançamento acima.</p>'
     }
     async function addTx(row) {
@@ -3412,39 +3537,100 @@
     $('#csvCancelBtn').onclick = () => { $('#csvPreview').classList.add('hide'); $('#csvActions').classList.add('hide'); $('#csvFileInput').value = '' };
 
     /* ===== LANÇAMENTO POR VOZ ===== */
-    let mediaRecorder = null, audioChunks = [];
-    async function startVoice(btn, onText) {
-      if (!navigator.mediaDevices) { toast('Microfone não disponível neste navegador.', 1); return }
-      if (mediaRecorder && mediaRecorder.state === 'recording') { mediaRecorder.stop(); return }
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream); audioChunks = [];
-        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-        mediaRecorder.onstop = async () => {
-          stream.getTracks().forEach(t => t.stop()); btn.classList.remove('recording'); btn.textContent = btn === ($('#voiceBtn')) ? '🎤 Lançar por voz' : '🎤 Voz';
-          // Usa a IA para transcrever e interpretar o áudio
-          toast('Processando áudio…');
-          const text = await transcribeAudio(audioChunks);
-          if (text) onText(text); else toast('Não foi possível entender o áudio. Tente de novo.', 1)
-        };
-        mediaRecorder.start();
-        btn.classList.add('recording'); btn.textContent = '⏹ Parar';
-      } catch (e) { toast('Não foi possível acessar o microfone.', 1) }
-    }
-    async function transcribeAudio(chunks) {
-      // Envia o áudio para a IA pelo chat como descrição de texto
-      // Fallback: usa SpeechRecognition nativa se disponível
+    /* ===== VOZ: tela com bola que reage ao volume da fala ===== */
+    const Voice = (() => {
+      const ov = $('#voiceOv'), ball = $('#voiceBall'), halo = $('#voiceHalo'), st = $('#voiceStatus'), tx = $('#voiceText');
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) return null; // sem suporte nativo, retorna null
-      return new Promise(res => { const r = new SR(); r.lang = 'pt-BR'; r.onresult = e => res(e.results[0][0].transcript); r.onerror = () => res(null); r.start() })
-    }
-    $('#voiceBtn').onclick = () => startVoice($('#voiceBtn'), text => {
-      // Preenche o campo de descrição e abre o chat da IA para interpretar
-      aiOpen(); aiSend(`Lançar por voz: "${text}"`);
-    });
-    $('#aiVoiceBtn').onclick = () => startVoice($('#aiVoiceBtn'), text => {
-      $('#aiIn').value = text; aiSend(text)
-    });
+      let stream, ctx, an, buf, raf, rec, onText, active = false, finishing = false;
+      let level = 0, slow = 0, finalTxt = '', interimTxt = '', lastSpeech = 0, startedAt = 0;
+
+      function frame() {
+        if (!active) return;
+        let v = 0;
+        if (an) {
+          an.getByteTimeDomainData(buf);
+          let sum = 0; for (let i = 0; i < buf.length; i++) { const d = (buf[i] - 128) / 128; sum += d * d }
+          v = Math.min(1, Math.sqrt(sum / buf.length) * 5.5);   // volume (RMS) de 0 a 1
+        } else v = (Math.sin(Date.now() / 450) + 1) / 14;        // sem microfone direto: só respira
+        level = v > level ? v : level * .88 + v * .12;            // sobe rápido, desce suave
+        slow = slow * .94 + level * .06;
+        ball.style.transform = `scale(${(1 + level * .85).toFixed(3)})`;
+        halo.style.transform = `scale(${(1.15 + slow * 1.5).toFixed(3)})`;
+        halo.style.opacity = (.25 + slow * .6).toFixed(2);
+        if (v > .09) lastSpeech = Date.now();
+        // fim automático: já falou e ficou ~2,2s em silêncio
+        if ((finalTxt || interimTxt) && lastSpeech && Date.now() - lastSpeech > 2200) return finish(true);
+        if (Date.now() - startedAt > 90000) return finish(true);
+        raf = requestAnimationFrame(frame);
+      }
+      function showText() {
+        const s = (finalTxt + ' ' + interimTxt).trim();
+        tx.textContent = s || 'Fale agora, por exemplo: "gastei 50 reais no mercado".';
+        tx.classList.toggle('empty', !s);
+      }
+      function startRec() {
+        rec = new SR(); rec.lang = 'pt-BR'; rec.continuous = true; rec.interimResults = true;
+        rec.onresult = e => {
+          interimTxt = '';
+          for (let i = e.resultIndex; i < e.results.length; i++) {
+            const r = e.results[i];
+            if (r.isFinal) finalTxt += (finalTxt ? ' ' : '') + r[0].transcript.trim(); else interimTxt += r[0].transcript;
+          }
+          lastSpeech = Date.now(); showText();
+        };
+        rec.onerror = e => {
+          if (e.error === 'no-speech' || e.error === 'aborted') return;
+          if (e.error === 'not-allowed' || e.error === 'service-not-allowed') fail('O navegador bloqueou o microfone. Libere nas permissões do site.');
+          else if (e.error === 'audio-capture') fail('Não encontrei um microfone disponível.');
+          else if (e.error === 'network') fail('O reconhecimento de voz precisa de internet.');
+        };
+        rec.onend = () => { if (active && !finishing) { try { rec.start() } catch (_) { } } };  // o Chrome encerra sozinho em pausas
+        try { rec.start() } catch (_) { }
+      }
+      function cleanup() {
+        active = false; cancelAnimationFrame(raf);
+        try { rec && (rec.onend = null, rec.abort()) } catch (_) { }
+        try { stream && stream.getTracks().forEach(t => t.stop()) } catch (_) { }
+        try { ctx && ctx.close() } catch (_) { }
+        stream = ctx = an = rec = null;
+        ov.hidden = true; document.body.classList.remove('voice-open');
+        ball.style.transform = halo.style.transform = '';
+      }
+      function fail(msg) { cleanup(); toast(msg, 1) }
+      function finish(send) {
+        if (finishing) return; finishing = true;
+        const text = (finalTxt + ' ' + interimTxt).trim(), cb = onText;
+        cleanup(); finishing = false;
+        if (!send) return;
+        if (text.length < 2) return toast('Não consegui ouvir. Tente de novo, falando mais perto.', 1);
+        cb && cb(text);
+      }
+      async function open(cb) {
+        if (active) return;
+        if (!SR) return toast('Seu navegador não reconhece voz. Use o Chrome, Edge ou Safari atualizado.', 1);
+        onText = cb; finalTxt = interimTxt = ''; lastSpeech = 0; level = slow = 0; startedAt = Date.now();
+        ov.hidden = false; document.body.classList.add('voice-open');
+        st.textContent = 'Ouvindo…'; showText(); active = true;
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+          ctx = new (window.AudioContext || window.webkitAudioContext)();
+          if (ctx.state === 'suspended') await ctx.resume();
+          an = ctx.createAnalyser(); an.fftSize = 1024; an.smoothingTimeConstant = .6;
+          ctx.createMediaStreamSource(stream).connect(an); buf = new Uint8Array(an.fftSize);
+        } catch (e) {
+          if (e && (e.name === 'NotAllowedError' || e.name === 'SecurityError')) return fail('Libere o microfone nas permissões do site para usar a voz.');
+          an = null; // segue só com o reconhecimento de fala
+        }
+        if (!active) return;
+        startRec(); frame();
+      }
+      $('#voiceStop').onclick = () => finish(true);
+      $('#voiceCancel').onclick = () => finish(false);
+      document.addEventListener('keydown', e => { if (active && e.key === 'Escape') finish(false) });
+      return { open };
+    })();
+    $('#voiceBtn').onclick = () => Voice.open(text => { aiOpen(); aiSend(`Lançar por voz: "${text}"`) });
+    $('#aiVoiceBtn').onclick = () => Voice.open(text => { $('#aiIn').value = text; aiSend(text) });
 
     /* ===== FOTO DE NOTA FISCAL ===== */
     $('#photoBtn').onclick = () => $('#photoInput').click();
@@ -3469,7 +3655,7 @@
       const bs = $('#billSum'); bs.className = 'pill'; bs.textContent = BILLS.length ? (pend.length ? `${pend.length} a pagar · ${BRLc(tot)}` : 'Tudo pago') : '';
       $('#billList').innerHTML = BILLS.length ? BILLS.map(b => {
         const [st, cl] = billState(b), paid = st === 'Paga', c = CAT[b.cat];
-        return `<div class="li"><span class="dot" style="background:${c ? c.c : '#ccc'}"></span><div class="m"><b>${esc(b.name)}</b><small>Vence dia ${b.due_day} · ${c ? c.n : ''}</small></div><span class="pill ${cl}">${st}</span><span class="amt">${BRLc(b.amount_cents)}</span><button class="btn ${paid ? 'ghost' : ''} sm" data-act="togBill" data-id="${esc(b.id)}">${paid ? 'Desfazer' : 'Marcar paga'}</button><button class="ic" data-act="delBill" data-id="${esc(b.id)}" aria-label="Excluir conta fixa">✕</button></div>`
+        return `<div class="li"><span class="dot" style="background:${c ? c.c : '#ccc'}"></span><div class="m"><b>${esc(b.name)}</b><small>Vence dia ${b.due_day} · ${c ? c.n : ''}</small></div><span class="pill ${cl}">${st}</span><span class="amt">${BRLc(b.amount_cents)}</span><button class="btn ${paid ? 'ghost' : ''} sm" data-act="togBill" data-id="${esc(b.id)}">${paid ? 'Desfazer' : 'Marcar paga'}</button><button class="ic" data-act="delBill" data-id="${esc(b.id)}" aria-label="Excluir conta fixa">&times;</button></div>`
       }).join('') : '<p class="empty">Cadastre aluguel, luz, internet, assinaturas… e acompanhe o que vence.</p>'
     }
     $('#billForm').onsubmit = async e => {
@@ -3504,7 +3690,7 @@
           else { const n = Math.max(1, ml); info = `<small style="color:var(--mute)">Até ${brd(g.deadline)}: guarde <b>${BRLc(Math.ceil(left / n))}</b> por mês (${n} ${n === 1 ? 'mês' : 'meses'}).</small>` }
         }
         else info = `<small style="color:var(--mute)">Faltam ${BRLc(left)}.</small>`;
-        return `<div class="goal"><div class="gt"><b>${esc(g.name)}</b><button class="ic" data-act="delGoal" data-id="${esc(g.id)}" aria-label="Excluir meta">✕</button></div>
+        return `<div class="goal"><div class="gt"><b>${esc(g.name)}</b><button class="ic" data-act="delGoal" data-id="${esc(g.id)}" aria-label="Excluir meta">&times;</button></div>
   <div class="bar"><i style="width:${pct}%"></i></div>
   <div class="gt" style="font-size:.92rem"><span>${BRLc(g.saved_cents)} de ${BRLc(g.target_cents)}</span><span>${Math.floor(pct)}%</span></div>
   <div style="margin-top:.3rem">${info}</div>
@@ -3577,32 +3763,33 @@
     };
 
     /* ===== INDICAÇÃO ===== */
+    let INVITE_LINK = '';
     async function loadReferral() {
       try {
         const r = await api('/api/indicar', { acao: 'obter' });
-        $('#referralCode').textContent = r.codigo;
-        const pct = ((r.total % r.premio_dias) || 0) / 3 * 100; // simplificado
-        const resto = r.faltam;
-        $('#referralProgress').textContent = `${r.total} indicações · faltam ${resto} para ganhar ${r.premio_dias} dias grátis`;
-        $('#referralBar').style.width = Math.min(100, (3 - resto) / 3 * 100) + '%'
+        // Quem veio por convite não vê a aba de convites por 37 dias (7 de teste + 1 período pago)
+        $('#inviteCard').classList.toggle('hide', !!r.oculto);
+        if (r.oculto) return;
+        INVITE_LINK = r.link;
+        $('#referralLink').textContent = r.link.replace(/^https?:\/\//, '');
+        $('#referralBar').style.width = (r.no_bloco / r.bloco * 100) + '%';
+        $('#referralProgress').textContent = `${r.no_bloco} de ${r.bloco} amigos neste bloco · faltam ${r.faltam} para ganhar ${r.premio_dias} dias grátis` + (r.premios ? ` · você já ganhou ${r.premios} ${r.premios > 1 ? 'prêmios' : 'prêmio'}` : '');
+        $('#shareLinkBtn').classList.toggle('hide', !navigator.share)
       }
-      catch (e) { $('#referralCode').textContent = 'Indisponível' }
+      catch (e) { $('#referralLink').textContent = 'Indisponível no momento' }
     }
-    $('#copyCodeBtn').onclick = () => {
-      const code = $('#referralCode').textContent;
-      navigator.clipboard.writeText(code).then(() => toast('Código copiado!')).catch(() => { });
+    $('#copyLinkBtn').onclick = () => {
+      if (!INVITE_LINK) return;
+      navigator.clipboard.writeText(INVITE_LINK).then(() => toast('Link copiado.')).catch(() => toast('Não foi possível copiar. Selecione o link e copie manualmente.', 1));
     };
-    $('#referralApplyBtn').onclick = async () => {
-      const codigo = $('#referralInput').value.toUpperCase().trim();
-      if (codigo.length !== 8) { toast('Código deve ter 8 caracteres.', 1); return }
-      $('#referralApplyBtn').disabled = true;
-      try {
-        const r = await api('/api/indicar', { acao: 'registrar', codigo });
-        $('#referralMsg').textContent = r.msg; $('#referralMsg').style.color = r.ok ? 'var(--leaf)' : 'var(--danger)';
-      }
-      catch (e) { $('#referralMsg').textContent = e.message; $('#referralMsg').style.color = 'var(--danger)' }
-      finally { $('#referralApplyBtn').disabled = false }
-    };
+    $('#shareLinkBtn').onclick = () => { if (INVITE_LINK) navigator.share({ title: 'Rumo', text: 'Organize seu dinheiro com o Rumo. Teste grátis:', url: INVITE_LINK }).catch(() => { }) };
+    // Convite recebido pelo link (/i/TOKEN): registra assim que a pessoa estiver logada
+    async function applyPendingInvite() {
+      let tk = null; try { tk = localStorage.getItem('rumo_ref') } catch (e) { }
+      if (!tk) return;
+      try { await api('/api/indicar', { acao: 'registrar', codigo: tk }) } catch (e) { if (e && /não encontrado|inválido|próprio|novas/i.test(e.message || '')) { } else return }
+      try { localStorage.removeItem('rumo_ref') } catch (e) { }
+    }
 
     /* ===== NAVEGAÇÃO ===== */
     function renderAll() { $('#mLabel').textContent = mlabel(M); $('#mNext').disabled = M >= shift(nowKey(), 1); renderRes(); renderTx(); renderBills(); renderGoals(); renderRep(); if (!$('#tDate').value || !$('#tDate').value.startsWith(M)) $('#tDate').value = defaultDate() }
@@ -3779,10 +3966,10 @@
       }
       renderAll();
       const r = document.createElement('div'); r.className = 'aiRes';
-      r.innerHTML = lines.map(l => '<span class="' + l[0] + '">' + (l[0] === 'ok' ? '✓ ' : '✕ ') + esc(l[1]) + '</span>').join('');
+      r.innerHTML = lines.map(l => '<span class="' + l[0] + '">' + (l[0] === 'ok' ? '+ ' : '× ') + esc(l[1]) + '</span>').join('');
       // Botão "Desfazer TUDO" que restaura o snapshot anterior
       if (lines.some(l => l[0] === 'ok') && snapBefore) {
-        const btn = document.createElement('button'); btn.type = 'button'; btn.textContent = '↩ Desfazer todas as alterações';
+        const btn = document.createElement('button'); btn.type = 'button'; btn.textContent = 'Desfazer todas as alterações';
         btn.onclick = async () => {
           // Restaura TX
           const toAdd = snapBefore.TX.filter(st => !TX.find(t => t.id === st.id));
@@ -3807,7 +3994,7 @@
       if ((r.actions || []).length) return;
       if (/\b(troquei|alterei|adicionei|criei|exclu[íi]|apaguei|removi|marquei|atualizei|mudei|defini|ajustei|registrei|lancei)\b/i.test(r.reply || '')) {
         const n = document.createElement('div'); n.className = 'aiRes';
-        n.innerHTML = '<span class="no">✕ A IA disse que fez, mas não enviou nenhuma alteração. Nada foi mudado. Peça de novo dizendo qual item e qual valor.</span>';
+        n.innerHTML = '<span class="no">× A IA disse que fez, mas não enviou nenhuma alteração. Nada foi mudado. Peça de novo dizendo qual item e qual valor.</span>';
         w.appendChild(n); $('#aiLog').scrollTop = 1e9
       }
     }
@@ -3868,6 +4055,7 @@
         M = nowKey(); $('#tDate').value = ''; setTab('res'); drawCats(); calc(); renderAll(); renderSub(); window.scrollTo(0, 0);
         // Métrica: painel aberto
         trackMetrica('painel_aberto', u.uid);
+        applyPendingInvite();
         return true
       }
       catch (e) { console.error(e); user = null; SUB = null; TX = []; GOALS = []; BILLS = []; $('#paywall').classList.add('hide'); $('#subBar').classList.add('hide'); $('#aiFab').classList.add('hide'); aiReset(); $('#dash').classList.add('hide'); $('#landing').classList.remove('hide'); return false }
