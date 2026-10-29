@@ -18,6 +18,6 @@ try {
   console.log('\n✅ Enviado para o GitHub com sucesso!');
 } catch (e) {
   console.error('\n❌ Erro:', e.message);
-  console.log('\nSe o push falhou por autenticação, configure o token:\n  git push https://JoaoReis583:SEU_TOKEN@github.com/JoaoReis583/rumo-teste.git master');
+  console.log('\nSe o push falhou por autenticação, configure o token:\n  git push https://JoaoReis583:SEU_TOKEN@github.com/JoaoReis583/rumo-teste.git main');
   process.exit(1);
 }
