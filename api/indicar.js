@@ -1,113 +1,69 @@
-// POST /api/indicar { acao } — sistema de indicação por link
-// acao: 'obter' → retorna o link de convite do usuário
-// acao: 'registrar' → { codigo } → registra que o usuário logado foi indicado por alguém
-// acao: 'webhook_premio' → chamado internamente pelo webhook-stripe ao confirmar pagamento de indicado
-const { HttpError, db, ts, requireUser, bodyOf, handler } = require('./_lib');
+// POST /api/indicar { acao } — indicação por link de convite.
+// acao: 'obter'     → devolve o link do usuário, progresso e se a aba de convite deve ficar oculta
+// acao: 'registrar' → { codigo } (token do link) registra que o usuário logado veio de um convite
+// O prêmio (5 amigos pagantes = 30 dias) é concedido pelo servidor quando o Stripe confirma o pagamento.
+const { HttpError, db, ts, requireUser, bodyOf, originOf, handler, PREMIO_DIAS, BLOCO, TRAVA_DIAS } = require('./_lib');
 
-const PREMIO_DIAS = 30;     // dias grátis por bloco de 5 indicações
-const BLOCO = 5;            // quantas indicações por prêmio
-const TRAVA_DIAS = 37;      // dias que a aba de convite fica oculta para quem veio de link (7 trial + 30 plano)
+const ALFABETO = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const novoToken = () => Array.from({ length: 8 }, () => ALFABETO[Math.floor(Math.random() * ALFABETO.length)]).join('');
 
 module.exports = handler('POST', async (req) => {
   const u = await requireUser(req);
   const { acao, codigo } = bodyOf(req);
 
-  /* ---------- OBTER ---------- */
   if (acao === 'obter') {
     const ref = db().collection('referrals').doc(u.uid);
     let snap = await ref.get();
     if (!snap.exists) {
-      // Gera código único de 8 chars: maiúsculas + dígitos
-      const newCodigo = Array.from({ length: 8 }, () =>
-        'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]
-      ).join('');
-      await ref.set({ uid: u.uid, codigo: newCodigo, total: 0, premiados: 0, created_at: ts(new Date()) });
+      await ref.set({ uid: u.uid, codigo: novoToken(), total: 0, premiados: 0, created_at: ts(new Date()) });
       snap = await ref.get();
     }
-    const d = snap.data();
+    let d = snap.data();
+    if (!d.codigo) { // documento antigo sem token: gera agora
+      const tk = novoToken();
+      await ref.set({ uid: u.uid, codigo: tk, total: d.total || 0, premiados: d.premiados || 0 }, { merge: true });
+      d = { ...d, codigo: tk };
+    }
     const total = d.total || 0;
-    const blocoAtual = total % BLOCO;
-    const faltam = BLOCO - blocoAtual;
-    const link = `https://rumo.vercel.app/i/${d.codigo}`;
-    return { codigo: d.codigo, link, total, faltam, bloco: BLOCO, premio_dias: PREMIO_DIAS };
+    const noBloco = total % BLOCO;
+    const uso = (await db().collection('referral_uses').doc(u.uid).get()).data();
+    const ate = uso && uso.convite_oculto_ate ? uso.convite_oculto_ate.toDate() : null;
+    const oculto = !!(ate && ate > new Date());
+    return {
+      codigo: d.codigo,
+      link: `${originOf(req)}/i/${d.codigo}`,
+      total, no_bloco: noBloco, faltam: BLOCO - noBloco, bloco: BLOCO, premio_dias: PREMIO_DIAS,
+      premios: Math.floor(total / BLOCO),
+      oculto, oculto_ate: oculto ? ate.toISOString() : null,
+    };
   }
 
-  /* ---------- REGISTRAR (quem foi indicado chama isso) ---------- */
   if (acao === 'registrar') {
-    if (!codigo || typeof codigo !== 'string' || codigo.length < 4) throw new HttpError(400, 'Código de indicação inválido.');
-    const clean = codigo.trim().toUpperCase();
+    const clean = String(codigo || '').trim().toUpperCase();
+    if (!/^[A-Z0-9]{4,16}$/.test(clean)) throw new HttpError(400, 'Link de convite inválido.');
 
-    // Garante que a pessoa não tenta usar o próprio código
-    const selfRef = db().collection('referrals').doc(u.uid);
-    const selfSnap = await selfRef.get();
-    if (selfSnap.exists && selfSnap.data().codigo === clean) throw new HttpError(400, 'Você não pode usar o seu próprio código.');
-
-    // Busca o dono do código
     const q = await db().collection('referrals').where('codigo', '==', clean).limit(1).get();
-    if (q.empty) throw new HttpError(404, 'Código de indicação não encontrado.');
-    const ownerDoc = q.docs[0];
-    const ownerUid = ownerDoc.id;
+    if (q.empty) throw new HttpError(404, 'Convite não encontrado.');
+    const ownerUid = q.docs[0].id;
+    if (ownerUid === u.uid) throw new HttpError(400, 'Você não pode usar o seu próprio convite.');
 
-    // Verifica se este usuário já foi registrado como indicado antes
     const usageRef = db().collection('referral_uses').doc(u.uid);
-    const usageSnap = await usageRef.get();
-    if (usageSnap.exists) return { ok: false, msg: 'Você já foi registrado como indicado anteriormente.' };
+    if ((await usageRef.get()).exists) return { ok: false, msg: 'Você já foi registrado como convidado.' };
 
-    // Registra que este usuário foi indicado por ownerUid
+    // Convite só vale para quem acabou de criar a conta (evita registrar usuários antigos/assinantes)
+    const sub = (await db().collection('subscriptions').doc(u.uid).get()).data();
+    if (sub && sub.stripe_subscription && sub.status !== 'pending') return { ok: false, msg: 'Convites só valem para contas novas.' };
+
     const now = new Date();
     await usageRef.set({
       uid: u.uid,
       indicado_por: ownerUid,
       codigo_usado: clean,
       registrado_em: ts(now),
-      // Oculta aba de convite por 37 dias (trial + 1º mês)
       convite_oculto_ate: ts(new Date(now.getTime() + TRAVA_DIAS * 86400000)),
-      pago: false, // só conta de verdade quando pagar
+      pago: false,
     });
-
-    return { ok: true, msg: 'Indicação registrada! Você e seu amigo serão premiados quando você assinar.' };
-  }
-
-  /* ---------- PRÊMIO (chamado pelo webhook após pagamento confirmado) ---------- */
-  if (acao === 'webhook_premio') {
-    // Esta ação só pode ser chamada internamente (pelo webhook-stripe via _lib direta)
-    // Verificação extra de segurança: o user deve ser o próprio dono do codigo
-    const { uid_indicado } = bodyOf(req);
-    if (!uid_indicado) throw new HttpError(400, 'uid_indicado obrigatório.');
-
-    const usageRef = db().collection('referral_uses').doc(uid_indicado);
-    const usageSnap = await usageRef.get();
-    if (!usageSnap.exists || usageSnap.data().pago) return { ok: false, msg: 'Já processado ou não encontrado.' };
-
-    const ownerUid = usageSnap.data().indicado_por;
-    await usageRef.update({ pago: true, pago_em: ts(new Date()) });
-
-    // Incrementa contador do dono do código
-    const ownerRef = db().collection('referrals').doc(ownerUid);
-    const ownerSnap = await ownerRef.get();
-    if (!ownerSnap.exists) return { ok: false, msg: 'Dono do código não encontrado.' };
-    const ownerData = ownerSnap.data();
-    const novoTotal = (ownerData.total || 0) + 1;
-
-    // Verifica se completou mais um bloco → adiciona dias na assinatura
-    const blocoAnterior = Math.floor((novoTotal - 1) / BLOCO);
-    const blocoAtual = Math.floor(novoTotal / BLOCO);
-    const ganhouPremio = blocoAtual > blocoAnterior;
-
-    await ownerRef.update({ total: novoTotal });
-
-    if (ganhouPremio) {
-      // Adiciona PREMIO_DIAS à assinatura do dono
-      const subRef = db().collection('subscriptions').doc(ownerUid);
-      const subSnap = await subRef.get();
-      const sub = subSnap.data() || {};
-      const until = sub.access_until ? sub.access_until.toDate() : new Date();
-      const nova = new Date(Math.max(until.getTime(), Date.now()) + PREMIO_DIAS * 86400000);
-      await subRef.set({ access_until: ts(nova), updated_at: ts(new Date()) }, { merge: true });
-      return { ok: true, premio: true, msg: `${PREMIO_DIAS} dias grátis adicionados ao dono do código.` };
-    }
-
-    return { ok: true, premio: false, msg: 'Indicação confirmada. Faltam indicações para o próximo prêmio.' };
+    return { ok: true, msg: 'Convite registrado.' };
   }
 
   throw new HttpError(400, 'Ação desconhecida.');

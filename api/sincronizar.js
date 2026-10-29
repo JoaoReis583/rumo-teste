@@ -1,5 +1,5 @@
 // POST /api/sincronizar { sessionId? } — confere no Stripe e libera o acesso na hora após o pagamento.
-const { HttpError, db, stripe, syncSubscription, requireUser, bodyOf, handler } = require('./_lib');
+const { HttpError, db, stripe, syncSubscription, premiarIndicacao, requireUser, bodyOf, handler } = require('./_lib');
 
 module.exports = handler('POST', async (req) => {
   const u = await requireUser(req);
@@ -14,5 +14,6 @@ module.exports = handler('POST', async (req) => {
   }
   if (!subId) return { status: 'none' };
   const d = await syncSubscription(subId, u.uid);
+  if (d && d.paid) await premiarIndicacao(u.uid).catch(e => console.error('[indicacao]', e && e.message));
   return { status: d ? d.status : 'none', access: !!(d && d.access_until > new Date()) };
 });
