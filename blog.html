@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog — Educação Financeira | Rumo</title>
+<meta name="description" content="Artigos de educação financeira do Rumo: dicas práticas para organizar o dinheiro, criar reserva de emergência e alcançar seus objetivos financeiros.">
+<meta property="og:title" content="Blog de Educação Financeira — Rumo">
+<meta property="og:description" content="Dicas práticas para organizar seu dinheiro, criar reserva de emergência e alcançar seus objetivos.">
+<meta property="og:type" content="website">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--forest:#0f3d2e;--leaf:#1f9d63;--mint:#e6f4ec;--soft:#f4faf6;--line:#cfe5d8;--bg:#fff;--txt:#17382c;--mute:#5b7a6c}
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--bg);color:var(--txt);font:400 16px/1.7 'Instrument Sans',system-ui,sans-serif;padding-bottom:4rem}
+  h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.02em;color:var(--forest)}
+  a{color:var(--leaf);text-decoration:none}
+  header{background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+  .logo{font:800 1.3rem 'Bricolage Grotesque';color:var(--forest);display:flex;align-items:center;gap:.5rem}
+  .logo svg.brand{width:28px;height:28px}
+  .nav-links a{color:var(--txt);padding:.3rem .7rem;border-radius:8px;font-weight:500;transition:background .15s}
+  .nav-links a:hover{background:var(--mint)}
+  .btn{border:0;border-radius:999px;padding:.7rem 1.3rem;font-weight:600;background:var(--forest);color:#fff;cursor:pointer;font:inherit;transition:transform .15s,background .15s;display:inline-block;text-decoration:none}
+  .btn:hover{background:var(--leaf);transform:translateY(-1px)}
+  .hero{background:linear-gradient(135deg,var(--forest),#1a6644);color:#fff;padding:4rem 1.5rem;text-align:center}
+  .hero h1{font-size:clamp(2rem,5vw,3.5rem);color:#fff;max-width:18ch;margin:0 auto .8rem}
+  .hero p{color:#b9e3cd;font-size:1.15rem;max-width:40em;margin:0 auto}
+  .wrap{max-width:1100px;margin:0 auto;padding:3rem 1.5rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;margin-top:2rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(15,61,46,.12)}
+  .card-img{height:160px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .card-body{padding:1.4rem;flex:1;display:flex;flex-direction:column}
+  .tag{display:inline-block;background:var(--mint);color:var(--leaf);padding:.25rem .7rem;border-radius:99px;font-size:.8rem;font-weight:600;margin-bottom:.6rem}
+  .card h2{font-size:1.2rem;line-height:1.3;margin-bottom:.5rem}
+  .card p{color:var(--mute);font-size:.93rem;line-height:1.55;flex:1}
+  .card-meta{display:flex;gap:.8rem;align-items:center;margin-top:.8rem;font-size:.83rem;color:var(--mute)}
+  .card-meta span{display:flex;align-items:center;gap:.3rem}
+  .card-meta svg{width:14px;height:14px;flex-shrink:0}
+  .read-more{display:inline-flex;align-items:center;gap:.3rem;color:var(--leaf);font-weight:600;font-size:.9rem;margin-top:.9rem;border:1.5px solid var(--leaf);border-radius:999px;padding:.4rem .9rem;transition:background .15s}
+  .read-more:hover{background:var(--mint)}
+  .read-more svg{width:14px;height:14px;transition:transform .2s}
+  .read-more:hover svg{transform:translateX(3px)}
+  .featured{grid-column:1/-1;display:grid;grid-template-columns:1.4fr 1fr;gap:2rem;background:var(--soft);border:1px solid var(--line);border-radius:24px;overflow:hidden;padding:2rem}
+  .featured .info{display:flex;flex-direction:column;justify-content:center}
+  .featured h2{font-size:clamp(1.5rem,3vw,2.2rem);margin-bottom:.8rem}
+  .featured p{color:var(--mute);font-size:1rem;flex:1}
+  .featured .tag{font-size:.85rem}
+  .feat-icon{background:linear-gradient(135deg,var(--leaf),#0f3d2e);border-radius:16px;display:grid;place-items:center;color:#fff}
+  .feat-icon svg{width:80px;height:80px;opacity:.9}
+  .tips{background:var(--forest);color:#d7efe2;border-radius:24px;padding:2.5rem;margin-top:3rem;text-align:center}
+  .tips h2{color:#fff;margin-bottom:.5rem}
+  .tips p{color:#9bddb7;margin-bottom:1.5rem}
+  @media(max-width:680px){.featured{grid-template-columns:1fr}.feat-icon{display:none}}
+  footer{border-top:1px solid var(--line);padding:1.5rem;text-align:center;color:var(--mute);font-size:.88rem;margin-top:3rem}
+  footer a{color:var(--leaf)}
+  .icon-bg-green{background:linear-gradient(135deg,#e6f4ec,#c3f0d4)}
+  .icon-bg-red{background:linear-gradient(135deg,#fde7e4,#fca5a5)}
+  .icon-bg-blue{background:linear-gradient(135deg,#e0f2fe,#bae6fd)}
+  .icon-bg-amber{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+  .icon-bg-purple{background:linear-gradient(135deg,#f3e8ff,#e9d5ff)}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="/">
+    <svg class="brand" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#0f3d2e"/><path d="M14 31c4-1 6-5 8-9s4-7 12-8c-1 8-4 10-8 12s-6 4-12 5z" fill="#5cc48c"/><path d="M14 36c4-8 10-13 18-17" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+    Rumo
+  </a>
+  <div class="nav-links" style="display:flex;gap:.3rem">
+    <a href="/">Início</a>
+    <a href="/#preco">Preços</a>
+  </div>
+  <a href="/" class="btn">Criar conta grátis</a>
+</header>
+
+<div class="hero">
+  <h1>Aprenda a dar um destino para o seu dinheiro</h1>
+  <p>Artigos práticos de educação financeira, sem jargão e sem enrolação.</p>
+</div>
+
+<div class="wrap">
+  <div class="grid">
+    <!-- Artigo em destaque -->
+    <div class="featured">
+      <div class="info">
+        <span class="tag">Destaque da semana</span>
+        <h2>Reserva de emergência: quanto guardar e por onde começar</h2>
+        <p>Muita gente adia a reserva porque parece um valor enorme. Mas existe uma estratégia simples para começar com o que você tem hoje e chegar lá em pouco tempo.</p>
+        <div class="card-meta" style="margin-top:.8rem">
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Outubro 2026
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            5 min de leitura
+          </span>
+        </div>
+        <a href="/artigos/reserva-emergencia.html" class="read-more">
+          Ler artigo completo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="feat-icon">
+        <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="20" width="48" height="34" rx="6"/><path d="M20 20V14a12 12 0 0 1 24 0v6"/><circle cx="32" cy="37" r="5"/><path d="M32 42v6"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Card 1 -->
+    <article class="card">
+      <div class="card-img icon-bg-green">
+        <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="var(--forest)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="24"/><path d="M32 16v4M32 44v4M20 32H16M48 32h-4"/><path d="M22 22l2.8 2.8M39.2 39.2L42 42M22 42l2.8-2.8M39.2 24.8L42 22"/><circle cx="32" cy="32" r="8"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="tag">Orçamento</span>
+        <h2>Regra 50-30-20: como dividir o salário sem sofrimento</h2>
+        <p>Destine 50% para necessidades, 30% para desejos e 20% para poupança. Adapte essa regra para a realidade brasileira.</p>
+        <div class="card-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Outubro 2026</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>4 min</span>
+        </div>
+        <a href="/artigos/regra-50-30-20.html" class="read-more">
+          Ler artigo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="card">
+      <div class="card-img icon-bg-red">
+        <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#b3261e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="16" width="48" height="32" rx="6"/><path d="M8 28h48"/><path d="M20 36h8M36 36h8"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="tag" style="background:#fde7e4;color:#b3261e">Dívidas</span>
+        <h2>Dívida no cartão de crédito: como sair sem virar bola de neve</h2>
+        <p>O rotativo do cartão cobra juros absurdos. Veja o passo a passo para quitar a dívida e nunca mais pagar juros desnecessários.</p>
+        <div class="card-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Outubro 2026</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>6 min</span>
+        </div>
+        <a href="/artigos/divida-cartao.html" class="read-more">
+          Ler artigo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="card">
+      <div class="card-img icon-bg-blue">
+        <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 50 L20 30 L32 38 L44 18 L54 24"/><polyline points="44,10 54,10 54,24"/>
+          <circle cx="20" cy="30" r="3" fill="#0369a1"/><circle cx="32" cy="38" r="3" fill="#0369a1"/><circle cx="44" cy="18" r="3" fill="#0369a1"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="tag" style="background:#e0f2fe;color:#0369a1">Investimentos</span>
+        <h2>Tesouro Direto, CDB ou poupança: qual é melhor para começar?</h2>
+        <p>Comparamos as diferenças de forma simples, sem promessas de rendimento. Descubra onde guardar o primeiro dinheiro.</p>
+        <div class="card-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Setembro 2026</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>5 min</span>
+        </div>
+        <a href="/artigos/tesouro-cdb-poupanca.html" class="read-more">
+          Ler artigo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="card">
+      <div class="card-img icon-bg-amber">
+        <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#92400e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="22"/><path d="M32 22v10l6 6"/><path d="M22 12l4 4M42 12l-4 4M12 42l4-4M52 42l-4-4"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="tag" style="background:#fef3c7;color:#92400e">Gastos</span>
+        <h2>Por que você gasta mais do que planejou (e como evitar)</h2>
+        <p>As armadilhas psicológicas do consumo que fazem seu orçamento furar todo mês — e técnicas simples para se proteger.</p>
+        <div class="card-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Setembro 2026</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>4 min</span>
+        </div>
+        <a href="/artigos/gastos-impulso.html" class="read-more">
+          Ler artigo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 5 -->
+    <article class="card">
+      <div class="card-img icon-bg-purple">
+        <svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M32 8 L38 26 L56 26 L42 38 L48 56 L32 44 L16 56 L22 38 L8 26 L26 26 Z"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="tag" style="background:#f3e8ff;color:#7c3aed">Metas</span>
+        <h2>Como guardar para uma viagem, um carro ou qualquer sonho grande</h2>
+        <p>Transformar um sonho em meta concreta muda tudo. Inclui uma calculadora interativa para saber exatamente quanto guardar por mês.</p>
+        <div class="card-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Agosto 2026</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>3 min</span>
+        </div>
+        <a href="/artigos/metas.html" class="read-more">
+          Ler artigo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="tips">
+    <h2>Quer colocar em prática tudo isso?</h2>
+    <p>O Rumo ajuda você a dividir o salário, acompanhar gastos e criar metas — com um assistente de IA para te guiar.</p>
+    <a href="/" class="btn" style="background:#fff;color:var(--forest)">Criar minha conta grátis</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Rumo. Controle financeiro pessoal.</p>
+  <p style="margin-top:.4rem"><a href="/">Início</a> · <a href="/privacidade.html">Privacidade</a> · <a href="/termos.html">Termos</a></p>
+</footer>
+</body>
+</html>

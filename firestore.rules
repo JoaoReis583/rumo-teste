@@ -1,0 +1,118 @@
+rules_version = '2';
+
+// Rumo: cole este arquivo em Firebase Console > Firestore Database > Regras e clique em Publicar.
+// Cada pessoa só lê e grava dentro de users/{o próprio uid}. Os dados são validados aqui no servidor.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function owner(uid) { return request.auth != null && request.auth.uid == uid; }
+
+    // Acesso liberado pelo servidor (api/assinar e api/webhook-stripe). Sem acesso ativo o painel vira somente leitura.
+    function hasAccess(uid) {
+      return exists(/databases/$(database)/documents/subscriptions/$(uid))
+        && get(/databases/$(database)/documents/subscriptions/$(uid)).data.access_until > request.time;
+    }
+
+    // Assinatura: a pessoa só lê. Quem escreve é o servidor (Firebase Admin), que ignora estas regras.
+    match /subscriptions/{uid} {
+      allow read: if owner(uid);
+      allow write: if false;
+    }
+
+    function catOk(c) { return c in ['mor','ali','tra','sau','res','inv','edu','laz']; }
+
+    function pctOk(v) { return v is int && v >= 0 && v <= 100; }
+
+    function validPcts(p) {
+      return p is map && p.size() == 8
+        && p.keys().hasOnly(['mor','ali','tra','sau','res','inv','edu','laz'])
+        && pctOk(p.mor) && pctOk(p.ali) && pctOk(p.tra) && pctOk(p.sau)
+        && pctOk(p.res) && pctOk(p.inv) && pctOk(p.edu) && pctOk(p.laz);
+    }
+
+    function money(v) { return v is int && v > 0 && v <= 100000000000; }
+
+    // Renda e divisão em %
+    match /users/{uid} {
+      allow read, delete: if owner(uid);
+      allow create, update: if owner(uid) && hasAccess(uid)
+        && request.resource.data.keys().hasOnly(['income_cents','pcts','updated_at'])
+        && request.resource.data.income_cents is int
+        && request.resource.data.income_cents >= 0
+        && request.resource.data.income_cents <= 100000000000
+        && validPcts(request.resource.data.pcts);
+    }
+
+    // Gastos e rendas extras
+    match /users/{uid}/transactions/{id} {
+      allow read, delete: if owner(uid);
+      allow create, update: if owner(uid) && hasAccess(uid) && validTx(request.resource.data);
+
+      function validTx(d) {
+        return d.keys().hasOnly(['kind','cat','description','amount_cents','tx_date','bill_id','created_at','parcelas','parcela_atual','parcela_total'])
+          && d.kind in ['expense','income']
+          && (d.kind == 'income' || catOk(d.cat))
+          && (d.cat == null || catOk(d.cat))
+          && d.description is string && d.description.size() >= 1 && d.description.size() <= 120
+          && money(d.amount_cents)
+          && d.tx_date is string && d.tx_date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+          && (d.bill_id == null || d.bill_id is string)
+          && d.created_at is string;
+      }
+    }
+
+    // Contas fixas
+    match /users/{uid}/bills/{id} {
+      allow read, delete: if owner(uid);
+      allow create, update: if owner(uid) && hasAccess(uid)
+        && request.resource.data.keys().hasOnly(['name','amount_cents','due_day','cat','created_at','recorrente'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 80
+        && money(request.resource.data.amount_cents)
+        && request.resource.data.due_day is int
+        && request.resource.data.due_day >= 1 && request.resource.data.due_day <= 31
+        && catOk(request.resource.data.cat)
+        && request.resource.data.created_at is string;
+    }
+
+    // Metas
+    match /users/{uid}/goals/{id} {
+      allow read, delete: if owner(uid);
+      allow create, update: if owner(uid) && hasAccess(uid)
+        && request.resource.data.keys().hasOnly(['name','target_cents','saved_cents','deadline','created_at'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 80
+        && money(request.resource.data.target_cents)
+        && request.resource.data.saved_cents is int
+        && request.resource.data.saved_cents >= 0 && request.resource.data.saved_cents <= 100000000000
+        && (request.resource.data.deadline == null || request.resource.data.deadline is string)
+        && request.resource.data.created_at is string;
+    }
+
+    // Histórico da IA: cada usuário só lê/escreve o próprio
+    match /ai_history/{uid} {
+      allow read, write: if owner(uid);
+    }
+
+    // Indicações: o usuário lê o próprio; servidor escreve
+    match /referrals/{uid} {
+      allow read: if owner(uid);
+      allow write: if false;
+    }
+
+    match /referral_uses/{uid} {
+      allow read: if owner(uid);
+      allow write: if false;
+    }
+
+    // Orçamento mensal por categoria (diferente do planejamento global)
+    match /users/{uid}/budgets/{month} {
+      allow read, delete: if owner(uid);
+      allow create, update: if owner(uid) && hasAccess(uid)
+        && request.resource.data.keys().hasOnly(['pcts','income_cents','updated_at'])
+        && request.resource.data.income_cents is int
+        && request.resource.data.income_cents >= 0
+        && validPcts(request.resource.data.pcts);
+    }
+  }
+}
