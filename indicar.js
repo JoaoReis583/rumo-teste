@@ -18,7 +18,12 @@ module.exports = handler('POST', async (req) => {
       await ref.set({ uid: u.uid, codigo: novoToken(), total: 0, premiados: 0, created_at: ts(new Date()) });
       snap = await ref.get();
     }
-    const d = snap.data();
+    let d = snap.data();
+    if (!d.codigo) { // documento antigo sem token: gera agora
+      const tk = novoToken();
+      await ref.set({ uid: u.uid, codigo: tk, total: d.total || 0, premiados: d.premiados || 0 }, { merge: true });
+      d = { ...d, codigo: tk };
+    }
     const total = d.total || 0;
     const noBloco = total % BLOCO;
     const uso = (await db().collection('referral_uses').doc(u.uid).get()).data();

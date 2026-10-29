@@ -3770,6 +3770,7 @@
         // Quem veio por convite não vê a aba de convites por 37 dias (7 de teste + 1 período pago)
         $('#inviteCard').classList.toggle('hide', !!r.oculto);
         if (r.oculto) return;
+        if (!r.codigo || r.no_bloco == null) throw new Error('api antiga');
         INVITE_LINK = r.link;
         $('#referralLink').textContent = r.link.replace(/^https?:\/\//, '');
         $('#referralBar').style.width = (r.no_bloco / r.bloco * 100) + '%';
