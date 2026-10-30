@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/i/:token",
-      "destination": "/convite.html"
+      "destination": "/convite"
     }
   ],
   "cleanUrls": true,
