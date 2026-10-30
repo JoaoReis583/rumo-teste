@@ -1,348 +1,145 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Entrar — Rumo</title>
-  <meta name="description" content="Entrar no Rumo, seu controle financeiro pessoal com assistente de IA.">
-  <meta name="robots" content="noindex">
-  <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --forest: #0f3d2e;
-      --leaf: #1f9d63;
-      --mint: #e6f4ec;
-      --soft: #f4faf6;
-      --line: #cfe5d8;
-      --txt: #17382c;
-      --mute: #5b7a6c;
-      --danger: #b3261e
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0
-    }
-
-    html {
-      scrollbar-width: none;
-      -ms-overflow-style: none
-    }
-
-    html::-webkit-scrollbar,
-    body::-webkit-scrollbar {
-      display: none;
-      width: 0;
-      height: 0
-    }
-
-    body {
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      background: radial-gradient(circle at 20% 10%, #e6f4ec 0%, #f4faf6 45%, #fff 100%);
-      color: var(--txt);
-      font: 400 16px/1.5 'Instrument Sans', system-ui, sans-serif
-    }
-
-    .box {
-      width: 100%;
-      max-width: 420px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 2rem 1.8rem;
-      box-shadow: 0 20px 50px -25px rgba(15, 61, 46, .35)
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: .5rem;
-      text-decoration: none;
-      color: var(--forest);
-      font: 800 1.5rem 'Bricolage Grotesque', system-ui, sans-serif;
-      margin-bottom: 1.2rem
-    }
-
-    h1 {
-      font: 800 1.8rem 'Bricolage Grotesque', system-ui, sans-serif;
-      letter-spacing: -.02em;
-      color: var(--forest);
-      text-align: center
-    }
-
-    .sub {
-      text-align: center;
-      color: var(--mute);
-      font-size: .93rem;
-      margin: .3rem 0 1.3rem
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      font-size: .88rem;
-      color: var(--forest);
-      margin-top: .8rem
-    }
-
-    input {
-      width: 100%;
-      margin-top: .3rem;
-      padding: .7rem .85rem;
-      border: 1.5px solid var(--line);
-      border-radius: 12px;
-      font: inherit;
-      background: #fff;
-      color: var(--txt)
-    }
-
-    input:focus {
-      outline: none;
-      border-color: var(--leaf);
-      box-shadow: 0 0 0 3px rgba(31, 157, 99, .15)
-    }
-
-    .btn {
-      width: 100%;
-      border: 0;
-      border-radius: 999px;
-      padding: .8rem 1.2rem;
-      font: 600 1rem 'Instrument Sans', system-ui, sans-serif;
-      background: var(--forest);
-      color: #fff;
-      cursor: pointer;
-      margin-top: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: .6rem
-    }
-
-    .btn:hover:not(:disabled) {
-      background: var(--leaf)
-    }
-
-    .btn:disabled {
-      opacity: .6;
-      cursor: not-allowed
-    }
-
-    .btn.ghost {
-      background: #fff;
-      color: var(--forest);
-      border: 1.5px solid var(--line);
-      margin-top: .6rem
-    }
-
-    .btn.ghost:hover:not(:disabled) {
-      background: var(--soft);
-      border-color: var(--leaf)
-    }
-
-    .link {
-      background: none;
-      border: 0;
-      color: var(--leaf);
-      font: inherit;
-      font-size: .9rem;
-      cursor: pointer;
-      margin-top: .8rem;
-      text-decoration: underline
-    }
-
-    .link:disabled {
-      color: var(--mute);
-      text-decoration: none
-    }
-
-    .err {
-      min-height: 1.2em;
-      margin-top: .7rem;
-      color: var(--danger);
-      font-size: .88rem;
-      text-align: center
-    }
-
-    .or {
-      display: flex;
-      align-items: center;
-      gap: .8rem;
-      color: var(--mute);
-      font-size: .85rem;
-      margin-top: 1rem
-    }
-
-    .or::before,
-    .or::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--line)
-    }
-
-    .other {
-      text-align: center;
-      margin-top: 1.3rem;
-      font-size: .93rem;
-      color: var(--mute)
-    }
-
-    .other a,
-    .terms a {
-      color: var(--leaf);
-      font-weight: 600
-    }
-
-    .terms {
-      font-size: .78rem;
-      color: var(--mute);
-      text-align: center;
-      margin-top: 1rem
-    }
-
-    .invite {
-      background: var(--mint);
-      border-left: 4px solid var(--leaf);
-      border-radius: 0 12px 12px 0;
-      padding: .7rem .9rem;
-      font-size: .88rem;
-      margin-bottom: 1rem;
-      color: var(--forest)
-    }
-
-    .hide {
-      display: none !important
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrar — Rumo</title>
+<meta name="description" content="Entrar no Rumo, seu controle financeiro pessoal com assistente de IA.">
+<meta name="robots" content="noindex">
+<link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--forest:#0f3d2e;--leaf:#1f9d63;--mint:#e6f4ec;--soft:#f4faf6;--line:#cfe5d8;--txt:#17382c;--mute:#5b7a6c;--danger:#b3261e}
+  *{box-sizing:border-box;margin:0}
+  html{scrollbar-width:none;-ms-overflow-style:none}
+  html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+  body{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:radial-gradient(circle at 20% 10%,#e6f4ec 0%,#f4faf6 45%,#fff 100%);color:var(--txt);font:400 16px/1.5 'Instrument Sans',system-ui,sans-serif}
+  .box{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:2rem 1.8rem;box-shadow:0 20px 50px -25px rgba(15,61,46,.35)}
+  .brand{display:flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;color:var(--forest);font:800 1.5rem 'Bricolage Grotesque',system-ui,sans-serif;margin-bottom:1.2rem}
+  h1{font:800 1.8rem 'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.02em;color:var(--forest);text-align:center}
+  .sub{text-align:center;color:var(--mute);font-size:.93rem;margin:.3rem 0 1.3rem}
+  label{display:block;font-weight:600;font-size:.88rem;color:var(--forest);margin-top:.8rem}
+  input{width:100%;margin-top:.3rem;padding:.7rem .85rem;border:1.5px solid var(--line);border-radius:12px;font:inherit;background:#fff;color:var(--txt)}
+  input:focus{outline:none;border-color:var(--leaf);box-shadow:0 0 0 3px rgba(31,157,99,.15)}
+  .btn{width:100%;border:0;border-radius:999px;padding:.8rem 1.2rem;font:600 1rem 'Instrument Sans',system-ui,sans-serif;background:var(--forest);color:#fff;cursor:pointer;margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:.6rem}
+  .btn:hover:not(:disabled){background:var(--leaf)}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--forest);border:1.5px solid var(--line);margin-top:.6rem}
+  .btn.ghost:hover:not(:disabled){background:var(--soft);border-color:var(--leaf)}
+  .link{background:none;border:0;color:var(--leaf);font:inherit;font-size:.9rem;cursor:pointer;margin-top:.8rem;text-decoration:underline}
+  .link:disabled{color:var(--mute);text-decoration:none}
+  .err{min-height:1.2em;margin-top:.7rem;color:var(--danger);font-size:.88rem;text-align:center}
+  .or{display:flex;align-items:center;gap:.8rem;color:var(--mute);font-size:.85rem;margin-top:1rem}
+  .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+  .other{text-align:center;margin-top:1.3rem;font-size:.93rem;color:var(--mute)}
+  .other a,.terms a{color:var(--leaf);font-weight:600}
+  .terms{font-size:.78rem;color:var(--mute);text-align:center;margin-top:1rem}
+  .invite{background:var(--mint);border-left:4px solid var(--leaf);border-radius:0 12px 12px 0;padding:.7rem .9rem;font-size:.88rem;margin-bottom:1rem;color:var(--forest)}
+  .hide{display:none!important}
+</style>
 </head>
-
 <body>
-  <main class="box">
-    <a class="brand" href="/" aria-label="Voltar ao início"><svg viewBox="0 0 48 48" width="34" height="34">
-        <circle cx="24" cy="24" r="22" fill="#0f3d2e" />
-        <path d="M14 31c4-1 6-5 8-9s4-7 12-8c-1 8-4 10-8 12s-6 4-12 5z" fill="#5cc48c" />
-        <path d="M14 36c4-8 10-13 18-17" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" />
-      </svg><span>Rumo</span></a>
-    <h1>Entrar</h1>
-    <p class="sub">Bem-vindo de volta. Entre para ver seu painel.</p>
+<main class="box">
+  <a class="brand" href="/" aria-label="Voltar ao início"><svg viewBox="0 0 48 48" width="34" height="34"><circle cx="24" cy="24" r="22" fill="#0f3d2e"/><path d="M14 31c4-1 6-5 8-9s4-7 12-8c-1 8-4 10-8 12s-6 4-12 5z" fill="#5cc48c"/><path d="M14 36c4-8 10-13 18-17" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg><span>Rumo</span></a>
+  <h1>Entrar</h1>
+  <p class="sub">Bem-vindo de volta. Entre para ver seu painel.</p>
+  
+  <form id="f" novalidate>
+    
+    <label for="aMail">E-mail</label><input id="aMail" type="email" autocomplete="email" required>
+    <label for="aPass">Senha (mínimo 8 caracteres)</label><input id="aPass" type="password" autocomplete="current-password" required>
+    <div class="err" id="aErr" role="alert"></div>
+    <button class="btn" id="aGo" type="submit">Entrar</button>
+    <div style="text-align:center"><button type="button" class="link" id="aForgot">Esqueci minha senha</button></div>
+  </form>
+  <div class="or"><span>ou</span></div>
+  <button class="btn ghost" id="aGoogle" type="button"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7a14.5 14.5 0 010-9.4l-7.9-6.1a24 24 0 000 21.6l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>Continuar com Google</button>
+  
+  <p class="other">Ainda não tem conta? <a href="/registro">Criar conta grátis</a></p>
+</main>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, GoogleAuthProvider, signInWithPopup, updateProfile, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+  const $ = s => document.querySelector(s);
+  const REG = false;
+  const app = initializeApp({ apiKey: 'AIzaSyD3yGQfWM6Bin1YPLUL2cH3yXHrRHsvbF4', authDomain: 'rumo-c287d.firebaseapp.com', projectId: 'rumo-c287d', storageBucket: 'rumo-c287d.firebasestorage.app', messagingSenderId: '525519129418', appId: '1:525519129418:web:3ebd02525705ff2c624fb3' });
+  const auth = getAuth(app); auth.languageCode = 'pt-BR';
 
-    <form id="f" novalidate>
+  // Mesmo limite de tentativas do painel (5 por hora)
+  const LIM = 5, WIN = 3600;
+  const hist = k => { try { return JSON.parse(localStorage.getItem('rumo_try_' + k) || '[]').filter(t => Date.now() - t < WIN * 1000) } catch (e) { return [] } };
+  const addTry = k => { try { localStorage.setItem('rumo_try_' + k, JSON.stringify([...hist(k), Date.now()])) } catch (e) { } };
+  const CD = k => { const h = hist(k); return h.length >= LIM ? Math.max(1, Math.ceil((h[0] + WIN * 1000 - Date.now()) / 1000)) : 0 };
+  const fmt = s => s >= 60 ? Math.ceil(s / 60) + ' min' : s + 's';
 
-      <label for="aMail">E-mail</label><input id="aMail" type="email" autocomplete="email" required>
-      <label for="aPass">Senha (mínimo 8 caracteres)</label><input id="aPass" type="password"
-        autocomplete="current-password" required>
-      <div class="err" id="aErr" role="alert"></div>
-      <button class="btn" id="aGo" type="submit">Entrar</button>
-      <div style="text-align:center"><button type="button" class="link" id="aForgot">Esqueci minha senha</button></div>
-    </form>
-    <div class="or"><span>ou</span></div>
-    <button class="btn ghost" id="aGoogle" type="button"><svg width="18" height="18" viewBox="0 0 48 48"
-        aria-hidden="true">
-        <path fill="#EA4335"
-          d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z" />
-        <path fill="#4285F4"
-          d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z" />
-        <path fill="#FBBC05" d="M10.5 28.7a14.5 14.5 0 010-9.4l-7.9-6.1a24 24 0 000 21.6l7.9-6.1z" />
-        <path fill="#34A853"
-          d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z" />
-      </svg>Continuar com Google</button>
+  const authMsg = e => {
+    const c = (e && e.code) || '';
+    if (c === 'auth/email-already-in-use') return 'Este e-mail já tem conta. Use a opção Entrar.';
+    if (['auth/invalid-credential', 'auth/wrong-password', 'auth/user-not-found', 'auth/invalid-login-credentials'].includes(c)) return 'E-mail ou senha incorretos. Confira e tente de novo.';
+    if (c === 'auth/invalid-email') return 'Digite um e-mail válido, como nome@email.com.';
+    if (c === 'auth/weak-password') return 'Senha fraca. Use pelo menos 8 caracteres.';
+    if (c === 'auth/too-many-requests') return 'Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.';
+    if (c === 'auth/network-request-failed') return 'Sem conexão. Verifique sua internet e tente de novo.';
+    if (c === 'auth/popup-closed-by-user' || c === 'auth/cancelled-popup-request') return '';
+    if (c === 'auth/popup-blocked') return 'O navegador bloqueou a janela do Google. Libere pop-ups para este site e tente de novo.';
+    if (c === 'auth/account-exists-with-different-credential') return 'Já existe uma conta com este e-mail. Entre com e-mail e senha.';
+    return 'Não foi possível concluir. Verifique sua conexão e tente de novo.'
+  };
 
-    <p class="other">Ainda não tem conta? <a href="/registro">Criar conta grátis</a></p>
-  </main>
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, GoogleAuthProvider, signInWithPopup, updateProfile, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
-    const $ = s => document.querySelector(s);
-    const REG = false;
-    const app = initializeApp({ apiKey: 'AIzaSyD3yGQfWM6Bin1YPLUL2cH3yXHrRHsvbF4', authDomain: 'rumo-c287d.firebaseapp.com', projectId: 'rumo-c287d', storageBucket: 'rumo-c287d.firebasestorage.app', messagingSenderId: '525519129418', appId: '1:525519129418:web:3ebd02525705ff2c624fb3' });
-    const auth = getAuth(app); auth.languageCode = 'pt-BR';
+  // Guarda o token do convite (link /i/TOKEN) para o painel registrar depois do login
+  const qs = new URLSearchParams(location.search).get('ref');
+  if (qs && /^[A-Za-z0-9]{4,16}$/.test(qs)) { try { localStorage.setItem('rumo_ref', qs.toUpperCase()) } catch (e) { } }
+  if (REG) { try { if (localStorage.getItem('rumo_ref')) $('#inviteNote').classList.remove('hide') } catch (e) { } }
 
-    // Mesmo limite de tentativas do painel (5 por hora)
-    const LIM = 5, WIN = 3600;
-    const hist = k => { try { return JSON.parse(localStorage.getItem('rumo_try_' + k) || '[]').filter(t => Date.now() - t < WIN * 1000) } catch (e) { return [] } };
-    const addTry = k => { try { localStorage.setItem('rumo_try_' + k, JSON.stringify([...hist(k), Date.now()])) } catch (e) { } };
-    const CD = k => { const h = hist(k); return h.length >= LIM ? Math.max(1, Math.ceil((h[0] + WIN * 1000 - Date.now()) / 1000)) : 0 };
-    const fmt = s => s >= 60 ? Math.ceil(s / 60) + ' min' : s + 's';
+  let busy = false, done = false;
+  const goHome = () => { done = true; location.replace('/') };
+  // Quem já está logado vai direto para o painel
+  onAuthStateChanged(auth, u => { if (u && !busy && !done) goHome() });
 
-    const authMsg = e => {
-      const c = (e && e.code) || '';
-      if (c === 'auth/email-already-in-use') return 'Este e-mail já tem conta. Use a opção Entrar.';
-      if (['auth/invalid-credential', 'auth/wrong-password', 'auth/user-not-found', 'auth/invalid-login-credentials'].includes(c)) return 'E-mail ou senha incorretos. Confira e tente de novo.';
-      if (c === 'auth/invalid-email') return 'Digite um e-mail válido, como nome@email.com.';
-      if (c === 'auth/weak-password') return 'Senha fraca. Use pelo menos 8 caracteres.';
-      if (c === 'auth/too-many-requests') return 'Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.';
-      if (c === 'auth/network-request-failed') return 'Sem conexão. Verifique sua internet e tente de novo.';
-      if (c === 'auth/popup-closed-by-user' || c === 'auth/cancelled-popup-request') return '';
-      if (c === 'auth/popup-blocked') return 'O navegador bloqueou a janela do Google. Libere pop-ups para este site e tente de novo.';
-      if (c === 'auth/account-exists-with-different-credential') return 'Já existe uma conta com este e-mail. Entre com e-mail e senha.';
-      return 'Não foi possível concluir. Verifique sua conexão e tente de novo.'
-    };
+  $('#f').addEventListener('submit', async ev => {
+    ev.preventDefault(); if (busy) return;
+    const mail = $('#aMail').value.trim().toLowerCase(), pw = $('#aPass').value, err = $('#aErr'), btn = $('#aGo');
+    const nm = REG ? $('#aName').value.trim() : ''; err.style.color = '';
+    if (REG && CD('signup') > 0) return;
+    if (REG && !nm) { err.textContent = 'Informe seu nome para criar a conta.'; return }
+    if (!/^\S+@\S+\.\S+$/.test(mail)) { err.textContent = 'Digite um e-mail válido, como nome@email.com.'; return }
+    if (pw.length < 8) { err.textContent = 'A senha precisa ter pelo menos 8 caracteres.'; return }
+    busy = true; btn.disabled = true; err.textContent = '';
+    try {
+      if (REG) {
+        addTry('signup');
+        const cred = await createUserWithEmailAndPassword(auth, mail, pw);
+        try { await updateProfile(cred.user, { displayName: nm }) } catch (e) { }
+        try { await sendEmailVerification(cred.user) } catch (e) { }
+        try { fetch('/api/metricas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ evento: 'conta_criada', uid: cred.user.uid }) }) } catch (e) { }
+      } else await signInWithEmailAndPassword(auth, mail, pw);
+      goHome();
+    } catch (e) { err.textContent = authMsg(e); busy = false; btn.disabled = false }
+  });
 
-    // Guarda o token do convite (link /i/TOKEN) para o painel registrar depois do login
-    const qs = new URLSearchParams(location.search).get('ref');
-    if (qs && /^[A-Za-z0-9]{4,16}$/.test(qs)) { try { localStorage.setItem('rumo_ref', qs.toUpperCase()) } catch (e) { } }
-    if (REG) { try { if (localStorage.getItem('rumo_ref')) $('#inviteNote').classList.remove('hide') } catch (e) { } }
+  $('#aGoogle').onclick = async () => {
+    if (busy) return; const err = $('#aErr'); err.style.color = ''; busy = true; err.textContent = '';
+    try { await signInWithPopup(auth, new GoogleAuthProvider()); goHome() }
+    catch (e) { err.textContent = authMsg(e); busy = false }
+  };
 
-    let busy = false, done = false;
-    const goHome = () => { done = true; location.replace('/') };
-    // Quem já está logado vai direto para o painel
-    onAuthStateChanged(auth, u => { if (u && !busy && !done) goHome() });
+  const forgot = $('#aForgot');
+  if (forgot) forgot.onclick = async () => {
+    const mail = $('#aMail').value.trim().toLowerCase(), err = $('#aErr'); err.style.color = '';
+    if (CD('reset') > 0) return;
+    if (!/^\S+@\S+\.\S+$/.test(mail)) { err.textContent = 'Digite seu e-mail acima para receber o link.'; return }
+    addTry('reset'); err.textContent = '';
+    try { await sendPasswordResetEmail(auth, mail); err.style.color = 'var(--forest)'; err.textContent = 'Se este e-mail tiver conta com senha, enviamos o link. Olhe também a caixa de spam.' }
+    catch (e) { err.textContent = authMsg(e) }
+  };
 
-    $('#f').addEventListener('submit', async ev => {
-      ev.preventDefault(); if (busy) return;
-      const mail = $('#aMail').value.trim().toLowerCase(), pw = $('#aPass').value, err = $('#aErr'), btn = $('#aGo');
-      const nm = REG ? $('#aName').value.trim() : ''; err.style.color = '';
-      if (REG && CD('signup') > 0) return;
-      if (REG && !nm) { err.textContent = 'Informe seu nome para criar a conta.'; return }
-      if (!/^\S+@\S+\.\S+$/.test(mail)) { err.textContent = 'Digite um e-mail válido, como nome@email.com.'; return }
-      if (pw.length < 8) { err.textContent = 'A senha precisa ter pelo menos 8 caracteres.'; return }
-      busy = true; btn.disabled = true; err.textContent = '';
-      try {
-        if (REG) {
-          addTry('signup');
-          const cred = await createUserWithEmailAndPassword(auth, mail, pw);
-          try { await updateProfile(cred.user, { displayName: nm }) } catch (e) { }
-          try { await sendEmailVerification(cred.user) } catch (e) { }
-          try { fetch('/api/metricas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ evento: 'conta_criada', uid: cred.user.uid }) }) } catch (e) { }
-        } else await signInWithEmailAndPassword(auth, mail, pw);
-        goHome();
-      } catch (e) { err.textContent = authMsg(e); busy = false; btn.disabled = false }
-    });
-
-    $('#aGoogle').onclick = async () => {
-      if (busy) return; const err = $('#aErr'); err.style.color = ''; busy = true; err.textContent = '';
-      try { await signInWithPopup(auth, new GoogleAuthProvider()); goHome() }
-      catch (e) { err.textContent = authMsg(e); busy = false }
-    };
-
-    const forgot = $('#aForgot');
-    if (forgot) forgot.onclick = async () => {
-      const mail = $('#aMail').value.trim().toLowerCase(), err = $('#aErr'); err.style.color = '';
-      if (CD('reset') > 0) return;
-      if (!/^\S+@\S+\.\S+$/.test(mail)) { err.textContent = 'Digite seu e-mail acima para receber o link.'; return }
-      addTry('reset'); err.textContent = '';
-      try { await sendPasswordResetEmail(auth, mail); err.style.color = 'var(--forest)'; err.textContent = 'Se este e-mail tiver conta com senha, enviamos o link. Olhe também a caixa de spam.' }
-      catch (e) { err.textContent = authMsg(e) }
-    };
-
-    setInterval(() => {
-      if (busy) return;
-      const b = $('#aGo'), r = REG ? CD('signup') : 0;
-      b.disabled = r > 0; b.textContent = r > 0 ? `Limite de ${LIM} contas atingido. Tente em ${fmt(r)}` : 'Entrar';
-      if (forgot) { const rr = CD('reset'); forgot.disabled = rr > 0; forgot.textContent = rr > 0 ? `Limite de ${LIM} envios atingido. Tente em ${fmt(rr)}` : 'Esqueci minha senha' }
-    }, 500);
-  </script>
+  setInterval(() => {
+    if (busy) return;
+    const b = $('#aGo'), r = REG ? CD('signup') : 0;
+    b.disabled = r > 0; b.textContent = r > 0 ? `Limite de ${LIM} contas atingido. Tente em ${fmt(r)}` : 'Entrar';
+    if (forgot) { const rr = CD('reset'); forgot.disabled = rr > 0; forgot.textContent = rr > 0 ? `Limite de ${LIM} envios atingido. Tente em ${fmt(rr)}` : 'Esqueci minha senha' }
+  }, 500);
+</script>
 </body>
-
 </html>
