@@ -9,7 +9,7 @@ fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
 
 // Arquivos estáticos raiz
-const statics = ['index.html', 'favicon.png', 'privacidade.html', 'termos.html', 'blog.html', 'login.html', 'registro.html', 'convite.html'];
+const statics = ['index.html', 'favicon.png', 'privacidade.html', 'termos.html', 'blog.html', 'login.html', 'registro.html', 'convite.html', 'sitemap.xml', 'robots.txt'];
 
 for (const file of statics) {
   const from = path.join(root, file);

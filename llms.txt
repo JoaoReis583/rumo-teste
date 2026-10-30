@@ -1,0 +1,34 @@
+# Rumo
+
+> Rumo é um site de controle financeiro pessoal em português do Brasil, com o lema "cada real com destino". A pessoa planeja a renda do mês, lança gastos e entradas, acompanha contas fixas e metas, e conversa com um assistente de IA sobre o próprio dinheiro. Funciona direto no navegador, no celular ou no computador.
+
+Pontos importantes sobre o Rumo:
+- Idioma e moeda: português do Brasil, valores em reais (R$).
+- Planejamento: a renda mensal é dividida em percentuais por categoria (por exemplo moradia, alimentação e transporte), com reserva de emergência.
+- Preço: 7 dias de teste grátis e depois R$ 5,90 por mês. É preciso criar uma conta (e-mail e senha) para usar o painel.
+- Privacidade: a pessoa pode exportar todos os seus dados em JSON e excluir a conta pelo próprio site, em conformidade com a LGPD.
+- O painel exige login. As páginas públicas são a página inicial, o blog, os artigos e os documentos legais abaixo.
+
+## Produto
+
+- [Página inicial](https://rumo-teste.vercel.app/): apresentação do Rumo e acesso ao painel.
+
+O painel tem estas áreas: Resumo (entradas, gastos, saldo e contas a pagar do mês, com planejado x gasto por categoria), Gastos (lançamento de gastos e rendas extras, com filtro por categoria e navegação mês a mês), Contas fixas (vencimentos, pagas, pendentes e atrasadas), Metas (objetivos com prazo e quanto guardar por mês), Relatórios (comparação dos últimos 6 meses e exportação em CSV), Planejamento (renda mensal, divisão em percentuais e reserva de emergência) e Configurações (convidar amigos, exportar dados e excluir conta). Há também um Assistente de IA que responde dúvidas sobre os lançamentos da própria pessoa e aceita perguntas por voz.
+
+## Blog e educação financeira
+
+- [Blog](https://rumo-teste.vercel.app/blog): artigos de educação financeira para organizar o dinheiro, criar reserva de emergência e alcançar objetivos.
+- [Dívida no cartão de crédito: como sair sem virar bola de neve](https://rumo-teste.vercel.app/artigos/divida-cartao): passo a passo para quitar o rotativo do cartão e evitar a armadilha dos juros.
+- [Por que você gasta mais do que planejou (e como evitar)](https://rumo-teste.vercel.app/artigos/gastos-impulso): armadilhas psicológicas do gasto por impulso e técnicas simples de proteção.
+- [Como guardar para uma viagem, um carro ou qualquer sonho grande](https://rumo-teste.vercel.app/artigos/metas): como transformar sonhos em metas financeiras concretas e guardar com constância.
+- [Regra 50-30-20: como dividir o salário sem sofrimento](https://rumo-teste.vercel.app/artigos/regra-50-30-20): divisão do salário entre necessidades, desejos e poupança, adaptada à realidade brasileira.
+- [Tesouro Direto, CDB ou poupança: qual é melhor para começar?](https://rumo-teste.vercel.app/artigos/tesouro-cdb-poupanca): comparação simples entre as três opções para quem está começando a investir no Brasil.
+
+## Legal
+
+- [Política de Privacidade](https://rumo-teste.vercel.app/privacidade): como o Rumo coleta, usa e protege dados pessoais, conforme a LGPD.
+- [Termos de Uso](https://rumo-teste.vercel.app/termos): condições de uso do serviço.
+
+## Optional
+
+- [Sitemap](https://rumo-teste.vercel.app/sitemap.xml): lista das páginas públicas do site.

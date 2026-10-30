@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /login
+Disallow: /registro
+Disallow: /convite
+Disallow: /i/
+
+Sitemap: https://rumo-teste.vercel.app/sitemap.xml
