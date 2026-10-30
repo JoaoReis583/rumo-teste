@@ -2168,6 +2168,12 @@
       background: rgba(255, 255, 255, .28)
     }
 
+    .ai-hist-btn[aria-pressed="true"] {
+      background: #fff;
+      color: var(--forest);
+      border-color: #fff
+    }
+
     #aiLog {
       flex: 1;
       overflow: auto;
@@ -3049,6 +3055,7 @@
     <header>
       <b>Assistente Rumo</b>
       <div class="ai-actions">
+        <button class="ai-hist-btn" id="aiSpeakBtn" type="button" aria-pressed="false" title="Ouvir as respostas em voz alta">Voz</button>
         <button class="ai-hist-btn" id="aiClearBtn" title="Limpar conversa">Limpar</button>
         <button id="aiClose" aria-label="Fechar o assistente">&times;</button>
       </div>
@@ -3630,7 +3637,7 @@
       return { open };
     })();
     $('#voiceBtn').onclick = () => Voice.open(text => { aiOpen(); aiSend(`Lançar por voz: "${text}"`) });
-    $('#aiVoiceBtn').onclick = () => Voice.open(text => { $('#aiIn').value = text; aiSend(text) });
+    $('#aiVoiceBtn').onclick = () => { aiSpeakUnlock(); Voice.open(text => { $('#aiIn').value = text; aiSend(text, true) }) };
 
     /* ===== FOTO DE NOTA FISCAL ===== */
     $('#photoBtn').onclick = () => $('#photoInput').click();
@@ -3777,7 +3784,7 @@
         $('#referralProgress').textContent = `${r.no_bloco} de ${r.bloco} amigos neste bloco · faltam ${r.faltam} para ganhar ${r.premio_dias} dias grátis` + (r.premios ? ` · você já ganhou ${r.premios} ${r.premios > 1 ? 'prêmios' : 'prêmio'}` : '');
         $('#shareLinkBtn').classList.toggle('hide', !navigator.share)
       }
-      catch (e) { console.error('indicar:', e); $('#referralLink').textContent = 'Indisponível no momento' + (e && e.message ? ' [' + e.message + ']' : '') }
+      catch (e) { $('#referralLink').textContent = 'Indisponível no momento' }
     }
     $('#copyLinkBtn').onclick = () => {
       if (!INVITE_LINK) return;
@@ -3906,7 +3913,7 @@
     }
 
     function aiReset() {
-      AI = []; aiBusy = false; $('#aiLog').innerHTML = ''; $('#aiChips').innerHTML = ''; $('#aiPanel').classList.add('hide');
+      AI = []; aiBusy = false; aiStopSpeak(); $('#aiLog').innerHTML = ''; $('#aiChips').innerHTML = ''; $('#aiPanel').classList.add('hide');
       if (user && fs) try { deleteDoc(doc(fs, 'ai_history', user.uid)).catch(() => { }) } catch (e) { }
     }
     function aiOpen() {
@@ -3918,7 +3925,7 @@
       }
       $('#aiIn').focus()
     }
-    function aiClose() { $('#aiPanel').classList.add('hide'); $('#aiFab').classList.remove('hide') }
+    function aiClose() { aiStopSpeak(); $('#aiPanel').classList.add('hide'); $('#aiFab').classList.remove('hide') }
 
     /* Histórico de ações para desfazer QUALQUER ação da IA */
     const AI_UNDO_STACK = [];
@@ -3999,8 +4006,49 @@
         w.appendChild(n); $('#aiLog').scrollTop = 1e9
       }
     }
-    async function aiSend(text) {
+    /* ===== Respostas em voz (leitura em voz alta, no navegador) ===== */
+    const aiTTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+    let aiSpeakOn = false, aiUnlocked = false;
+    try { aiSpeakOn = localStorage.getItem('rumo_ai_voz') === '1' } catch (e) { }
+    function aiPtVoice() {
+      const v = speechSynthesis.getVoices();
+      return v.find(x => /^pt[-_]BR$/i.test(x.lang)) || v.find(x => /^pt/i.test(x.lang)) || null
+    }
+    function aiPlain(t) {
+      return String(t || '').replace(/[*_`#>]/g, '').split('\n').map(l => l.replace(/^\s*[-•]\s+/, '').trim()).filter(Boolean)
+        .map(l => /[.!?:;]$/.test(l) ? l : l + '.').join(' ')
+    }
+    function aiStopSpeak() { if (aiTTS) try { speechSynthesis.cancel() } catch (e) { } }
+    // iOS/Safari só libera a fala se ela começar num toque da pessoa: "destrava" no primeiro toque.
+    function aiSpeakUnlock() {
+      if (!aiTTS || aiUnlocked) return;
+      try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); aiUnlocked = true } catch (e) { }
+    }
+    function aiSpeak(text) {
+      if (!aiTTS) return;
+      const t = aiPlain(text).slice(0, 1200); if (!t) return;
+      aiStopSpeak();
+      const voice = aiPtVoice();
+      (t.match(/[^.!?]+[.!?]*/g) || [t]).reduce((acc, sent) => {
+        if (acc.length && (acc[acc.length - 1] + sent).length < 220) acc[acc.length - 1] += sent; else acc.push(sent);
+        return acc
+      }, []).forEach(chunk => {
+        const u = new SpeechSynthesisUtterance(chunk.trim()); u.lang = 'pt-BR'; u.rate = 1.02;
+        if (voice) u.voice = voice;
+        speechSynthesis.speak(u)
+      })
+    }
+    function aiSpeakUi() { $('#aiSpeakBtn').setAttribute('aria-pressed', aiSpeakOn ? 'true' : 'false') }
+    if (!aiTTS) $('#aiSpeakBtn').classList.add('hide'); else { aiSpeakUi(); try { speechSynthesis.getVoices() } catch (e) { } }
+    $('#aiSpeakBtn').onclick = () => {
+      aiSpeakOn = !aiSpeakOn; try { localStorage.setItem('rumo_ai_voz', aiSpeakOn ? '1' : '0') } catch (e) { }
+      aiSpeakUi(); aiSpeakUnlock();
+      if (aiSpeakOn) aiSpeak('Voz ligada.'); else aiStopSpeak()
+    };
+
+    async function aiSend(text, viaVoice) {
       text = String(text || '').trim().slice(0, 600); if (!text || aiBusy) return;
+      aiSpeakUnlock(); aiStopSpeak();
       aiBusy = true; $('#aiChips').classList.add('hide'); $('#aiSend').disabled = true; $('#aiIn').value = '';
       aiBubble('user', esc(text)); AI.push({ role: 'user', content: text });
       const w = aiBubble('bot', '<i>Pensando…</i>');
@@ -4010,6 +4058,7 @@
         const r = await api('/api/assistente', { messages: h, context: aiContext() });
         AI.push({ role: 'assistant', content: JSON.stringify({ reply: r.reply, actions: r.actions || [] }) });
         w.innerHTML = aiFmt(r.reply);
+        if (aiSpeakOn || viaVoice) aiSpeak(r.reply);
         await aiApply(r.actions, w, snapBefore); aiCheckClaim(r, w);
         if (r.restantes !== undefined) $('#aiRestantes').textContent = `Perguntas restantes hoje: ${r.restantes}`;
         // Salva histórico na nuvem
